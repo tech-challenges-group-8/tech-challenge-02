@@ -11,18 +11,18 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Link,
 } from "@mui/material";
-import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useUser } from "../contexts/UserContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const theme = useTheme();
   const { user, setUser } = useUser();
-  const router = useRouter();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -40,7 +40,8 @@ const Header = () => {
     null
   );
   const sidebarOpen = Boolean(sidebarAnchorEl);
-  const pathname = usePathname();
+  const location = useLocation();
+  const pathname = location.pathname;
 
   const handleSidebarMenu = (event: React.MouseEvent<HTMLElement>) => {
     setSidebarAnchorEl(event.currentTarget);
@@ -55,7 +56,7 @@ const Header = () => {
     try {
       setUser(null);
       localStorage.removeItem("token");
-      router.push("/");
+      navigate("/");
     } catch (error) {
       console.error("Error during logout:", error);
     }

@@ -16,11 +16,11 @@ import {
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { Transaction } from "../contexts/UserContext";
 import { useTransactions } from "../hooks/useTransactions";
 
 import LoadingButton from "./LoadingButton";
 import NumericInputField from "./NumericInputField";
+import type { Transaction } from "../lib/types";
 
 interface TransactionItemProps {
   tx: Transaction;

@@ -9,7 +9,6 @@ const resources = {
   pt: { translation: ptTranslation },
 };
 
-// eslint-disable-next-line import/no-named-as-default-member
 const initPromise = i18next.use(initReactI18next).init({
   resources,
   lng: "pt",

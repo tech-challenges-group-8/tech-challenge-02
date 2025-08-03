@@ -147,15 +147,7 @@ export default function NewTransaction() {
           </Select>
         </FormControl>
 
-        <Box>
-          <Typography
-            variant="body1"
-            fontWeight={600}
-            mb={1}
-            sx={{ color: { xs: theme.palette.primary.main, sm: "#dee9ea" } }}
-          >
-            {t("newTransaction.valueLabel")}
-          </Typography>
+        <Box display="flex" flexDirection="column" gap={3}>
           <NumericInputField
             value={value}
             onChange={(e) => {

@@ -2,15 +2,15 @@
 
 import {
   Box,
+  Link,
   List,
   ListItemButton,
   ListItemText,
   useTheme,
 } from "@mui/material";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 interface SidebarItemProps {
   href: string;
@@ -19,7 +19,8 @@ interface SidebarItemProps {
 
 const SidebarItem: React.FC<SidebarItemProps> = ({ href, text }) => {
   const theme = useTheme();
-  const pathname = usePathname();
+const location = useLocation();
+const pathname = location.pathname;
   const isActive = pathname === href;
 
   return (

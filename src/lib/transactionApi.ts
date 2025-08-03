@@ -1,6 +1,6 @@
-import { type NewTransaction, type Transaction } from "../contexts/UserContext";
 
 import { apiClient } from "./apiClient";
+import type { Transaction, NewTransaction } from "./types";
 
 export const transactionApi = {
   getTransactions: async (id: string) => {

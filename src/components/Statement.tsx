@@ -4,11 +4,12 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useUser, type Transaction } from "../contexts/UserContext";
+import { useUser } from "../contexts/UserContext";
 import { useTransactions } from "../hooks/useTransactions";
 import { transactionApi } from "../lib/transactionApi";
 
 import TransactionItem from "./TransactionItem";
+import type { Transaction } from "../lib/types";
 
 interface StatementProps {
   initialTransactions?: Transaction[];

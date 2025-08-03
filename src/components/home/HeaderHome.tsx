@@ -66,13 +66,18 @@ export default function HeaderHome() {
             <Box sx={{ display: { xs: "block", sm: "none", lg: "block" } }}>
               <img
                 src={Logo}
-                alt="Next.js logo"
+                alt="Logo Bank financial"
                 width={146}
                 height={32}
               />
             </Box>
             <Box sx={{ display: { xs: "none", sm: "block", lg: "none" } }}>
-              <img src={LogoTablet} alt="Next.js logo" width={26} height={26} />
+              <img
+                src={LogoTablet}
+                alt="Logo Bank financial"
+                width={26}
+                height={26}
+              />
             </Box>
             <Box
               sx={{

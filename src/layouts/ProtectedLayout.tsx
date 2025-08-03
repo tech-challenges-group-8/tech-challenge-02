@@ -9,22 +9,20 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Statement from "../components/Statement";
 import { UserProvider } from "../contexts/UserContext";
+import { useAuth } from "../hooks/useAuth";
 import theme from "../styles/theme";
 
-// This is a placeholder for your real authentication check
-const useAuth = () => {
-  // In a real app, you'd check a token in localStorage, a cookie, or a context
-  const user = { loggedIn: true }; // Example: user is logged in
-  // const user = { loggedIn: false }; // Example: user is not logged in
-  return user && user.loggedIn;
-};
-
 const ProtectedLayout = () => {
-  const isAuth = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  // If not authenticated, redirect to the login page
-  if (!isAuth) {
-    return <Navigate to="/login" />;
+  // Show loading while checking authentication
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
+
+  // If not authenticated, redirect to the home page
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
   }
 
   // If authenticated, render the layout with the nested route content
