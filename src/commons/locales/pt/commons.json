@@ -1,0 +1,85 @@
+{
+  "sidebar": {
+    "home": "Início",
+    "transactions": "Transferências",
+    "investments": "Investimentos",
+    "services": "Outros serviços"
+  },
+  "balanceCard": {
+    "balance": "Saldo",
+    "account": "Conta Corrente",
+    "greeting": "Olá, {{name}}! :)",
+    "guest": "Convidado"
+  },
+  "newTransaction": {
+    "title": "Nova transação",
+    "typeDeposit": "Depósito",
+    "typeTransfer": "Transferência",
+    "errorSelectType": "Por favor, selecione o tipo de transação.",
+    "errorInvalidValue": "Por favor, insira um valor válido maior que zero.",
+    "typeLabel": "Tipo de transação",
+    "valueLabel": "Valor",
+    "valuePlaceholder": "0,00",
+    "loadingButton": "Inserindo transação...",
+    "completeButton": "Concluir transação",
+    "nameLabel": "Nome",
+    "passwordLabel": "Senha"
+  },
+  "header": {
+    "logout": "Sair"
+  },
+  "account": {
+    "openMyAccount": "Abrir minha conta",
+    "openAccount": "Abrir conta",
+    "alreadyHaveAccount": "Já tenho conta",
+    "loginTitle": "Login",
+    "fillAllFields": "Preencha todos os campos.",
+    "loginFailed": "Falha no login: ",
+    "loginError": "Ocorreu um erro ao tentar fazer login.",
+    "loggingIn": "Entrando...",
+    "loginButton": "Entrar",
+    "registerTitle": "Preencha os campos abaixo para criar sua conta corrente!",
+    "acceptTerms": "Você precisa aceitar os termos.",
+    "registerFailed": "Falha no cadastro: ",
+    "registerError": "Ocorreu um erro ao tentar cadastrar.",
+    "privacyPolicy": "Li e estou ciente quanto às condições de tratamento dos meus dados conforme descrito na Política de Privacidade do banco.",
+    "creatingAccount": "Criando conta...",
+    "createAccountButton": "Criar Conta",
+    "loginSuccess": "Login realizado com sucesso!",
+    "registerSuccess": "Cadastro realizado com sucesso!"
+  },
+  "bodyHome": {
+    "mainText": "Experimente mais liberdade no controle da sua vida financeira. Crie sua conta com a gente!",
+    "advantagesTitle": "Vantagens do nosso banco:",
+    "advantage1Title": "Conta e cartão gratuitos",
+    "advantage1Description": "Isso mesmo, nossa conta é digital, sem custo fixo e mais que isso: sem tarifa de manutenção.",
+    "advantage2Title": "Saques sem custo",
+    "advantage2Description": "Você pode sacar gratuitamente 4x por mês de qualquer Banco 24h.",
+    "advantage3Title": "Programa de pontos",
+    "advantage3Description": "Você pode acumular pontos com suas compras no crédito sem pagar mensalidade!",
+    "advantage4Title": "Seguro Dispositivos",
+    "advantage4Description": "Seus dispositivos móveis (computador e laptop) protegidos por uma mensalidade simbólica."
+  },
+  "headerHome": {
+    "about": "Sobre",
+    "services": "Serviços"
+  },
+  "footerHome": {
+    "servicesTitle": "Serviços",
+    "checkingAccount": "Conta corrente",
+    "businessAccount": "Conta PJ",
+    "creditCard": "Cartão de crédito",
+    "contactTitle": "Contato",
+    "developedBy": "Desenvolvido por Alura"
+  },
+  "statement": {
+    "title": "Extrato",
+    "invalidValue": "Valor inválido",
+    "transfer": "Transferência",
+    "deposit": "Depósito",
+    "ok": "OK",
+    "confirmDelete": "Tem certeza que deseja excluir esta transação?",
+    "deleteTransaction": "Deletar transação",
+    "saving": "Salvando"
+  }
+}

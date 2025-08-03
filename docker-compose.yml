@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: tech-challenge-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: techchallenge
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - tech-challenge-network
+
+  backend-api:
+    image: tech-challenge-backend
+    container_name: tech-challenge-api
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/techchallenge?authSource=admin
+      - PORT=5000
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    networks:
+      - tech-challenge-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:5000
+    container_name: tech-challenge-frontend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend-api
+    networks:
+      - tech-challenge-network
+
+volumes:
+  mongo_data:
+
+networks:
+  tech-challenge-network:
+    driver: bridge

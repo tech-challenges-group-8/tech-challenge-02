@@ -1,0 +1,85 @@
+{
+  "sidebar": {
+    "home": "Home",
+    "transactions": "Transactions",
+    "investments": "Investments",
+    "services": "Other Services"
+  },
+  "balanceCard": {
+    "balance": "Balance",
+    "account": "Account",
+    "greeting": "Hello, {{name}}! :)",
+    "guest": "Guest"
+  },
+  "newTransaction": {
+    "title": "New Transaction",
+    "typeDeposit": "Deposit",
+    "typeTransfer": "Transfer",
+    "errorSelectType": "Please select a transaction type.",
+    "errorInvalidValue": "Please enter a valid value greater than zero.",
+    "typeLabel": "Transaction Type",
+    "valueLabel": "Value",
+    "valuePlaceholder": "0.00",
+    "loadingButton": "Inserting transaction...",
+    "completeButton": "Complete Transaction",
+    "nameLabel": "Name",
+    "passwordLabel": "Password"
+  },
+  "header": {
+    "logout": "Logout"
+  },
+  "account": {
+    "openMyAccount": "Open My Account",
+    "openAccount": "Open Account",
+    "alreadyHaveAccount": "Already have an account",
+    "loginTitle": "Login",
+    "fillAllFields": "Please fill in all fields.",
+    "loginFailed": "Login failed: ",
+    "loginError": "An error occurred while trying to log in.",
+    "loggingIn": "Logging in...",
+    "loginButton": "Login",
+    "registerTitle": "Fill in the fields below to create your current account!",
+    "acceptTerms": "You need to accept the terms.",
+    "registerFailed": "Registration failed: ",
+    "registerError": "An error occurred while trying to register.",
+    "privacyPolicy": "I have read and am aware of the conditions for processing my data as described in the bank's Privacy Policy.",
+    "creatingAccount": "Creating account...",
+    "createAccountButton": "Create Account",
+    "loginSuccess": "Login successful!",
+    "registerSuccess": "Registration successful!"
+  },
+  "bodyHome": {
+    "mainText": "Experience more freedom in controlling your financial life. Create your account with us!",
+    "advantagesTitle": "Advantages of our bank:",
+    "advantage1Title": "Free account and card",
+    "advantage1Description": "That's right, our account is digital, with no fixed cost and more than that: no maintenance fee.",
+    "advantage2Title": "Cost-free withdrawals",
+    "advantage2Description": "You can withdraw for free 4x a month from any Banco 24h.",
+    "advantage3Title": "Points program",
+    "advantage3Description": "You can accumulate points with your credit purchases without paying a monthly fee!",
+    "advantage4Title": "Device Insurance",
+    "advantage4Description": "Your mobile devices (computer and laptop) protected for a symbolic monthly fee."
+  },
+  "headerHome": {
+    "about": "About",
+    "services": "Services"
+  },
+  "footerHome": {
+    "servicesTitle": "Services",
+    "checkingAccount": "Checking Account",
+    "businessAccount": "Business Account",
+    "creditCard": "Credit Card",
+    "contactTitle": "Contact",
+    "developedBy": "Developed by Alura"
+  },
+  "statement": {
+    "title": "Statement",
+    "invalidValue": "Invalid value",
+    "transfer": "Transfer",
+    "deposit": "Deposit",
+    "ok": "OK",
+    "confirmDelete": "Are you sure you want to delete this transaction?",
+    "deleteTransaction": "Delete transaction",
+    "saving": "Saving"
+  }
+}
