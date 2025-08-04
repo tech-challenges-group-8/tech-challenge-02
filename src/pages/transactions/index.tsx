@@ -1,11 +1,10 @@
-import { Container, Typography } from "@mui/material";
+import CardBackground from "../../components/CardBackground";
+import NewTransactionCard from "../../components/NewTransaction";
 
 export default function Transactions() {
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Transferencias
-      </Typography>
-    </Container>
+    <CardBackground>
+      <NewTransactionCard />
+    </CardBackground>
   );
 }

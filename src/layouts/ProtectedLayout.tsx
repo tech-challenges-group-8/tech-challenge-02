@@ -4,7 +4,6 @@ import { SnackbarProvider } from "notistack";
 import { Suspense } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import BalanceCard from "../components/BalanceCard";
-import CardBackground from "../components/CardBackground";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Statement from "../components/Statement";
@@ -68,9 +67,7 @@ const ProtectedLayout = () => {
                   }}
                 >
                   <BalanceCard />
-                  <CardBackground>
-                    <Outlet />
-                  </CardBackground>
+                  <Outlet />
                 </Box>
                 <Statement />
               </Box>
