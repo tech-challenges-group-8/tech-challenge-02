@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mongodb:
     image: mongo:7
@@ -17,7 +15,9 @@ services:
       - tech-challenge-network
 
   backend-api:
-    image: tech-challenge-backend
+    build:
+      context: ./submodules/backend
+      dockerfile: ./Dockerfile
     container_name: tech-challenge-api
     restart: unless-stopped
     environment:
@@ -32,7 +32,11 @@ services:
       - tech-challenge-network
 
   frontend-dashboard:
-    image: tech-challange-front-dashboard
+    build:
+      context: ./submodules/dashboard
+      dockerfile: ./Dockerfile
+      args:
+        VITE_API_URL: http://localhost:5000
     container_name: tech-challenge-frontend-dashboard
     restart: unless-stopped
     ports:
