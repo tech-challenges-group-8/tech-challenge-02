@@ -1,6 +1,22 @@
 "use client";
 
-import { Box, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useTheme,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  DialogActions,
+} from "@mui/material";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import IconButton from "@mui/material/IconButton";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -21,7 +37,27 @@ export default function Statement({ initialTransactions }: StatementProps) {
   const { user } = useUser();
   const { setTransactions } = useTransactions();
   const [transactions, setTransactionsInner] = useState<Transaction[]>([]);
+  const [page, setPage] = useState(1);
+  const limit = 5;
 
+  //Filtros
+  const [filterType, setFilterType] = useState<string>("all");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [dateFrom, setDateFrom] = useState<string>("");
+  const [dateTo, setDateTo] = useState<string>("");
+  const [minValue, setMinValue] = useState<string>("");
+  const [maxValue, setMaxValue] = useState<string>("");
+  const [id, setId] = useState<string>("");
+  //end Filtros
+  const filteredTransactions = (initialTransactions || transactions).filter(
+    (t) =>
+      (filterType === "all" || t.type === filterType) &&
+      (!dateFrom || new Date(t.date) >= new Date(dateFrom)) &&
+      (!dateTo || new Date(t.date) <= new Date(dateTo)) &&
+      (!minValue || t.value >= Number(minValue)) &&
+      (!maxValue || t.value <= Number(maxValue)) &&
+      (!id || t.id?.toLowerCase().includes(id.toLowerCase())) // alterar por description
+  );
   const loadTransactions = useCallback(async () => {
     if (!user?.account) {
       setTransactions([]);
@@ -45,13 +81,21 @@ export default function Statement({ initialTransactions }: StatementProps) {
     loadTransactions();
   }, [user]);
 
-  const displayTransactions = initialTransactions || transactions;
+  // const displayTransactions = initialTransactions || transactions;
 
+  // const uniqueTransactions = Array.from(
+  //   new Map(displayTransactions.map((t) => [t.id, t])).values()
+  // );
   const uniqueTransactions = Array.from(
-    new Map(displayTransactions.map((t) => [t.id, t])).values()
+    new Map(filteredTransactions.map((t) => [t.id, t])).values()
   );
 
-  const groupedByMonth = uniqueTransactions.reduce<
+  const paginatedTransactions = uniqueTransactions.slice(
+    (page - 1) * limit,
+    page * limit
+  );
+
+  const groupedByMonth = paginatedTransactions.reduce<
     Record<string, Transaction[]>
   >((acc, transaction) => {
     const monthLabel = new Date(transaction.date).toLocaleString("default", {
@@ -61,7 +105,6 @@ export default function Statement({ initialTransactions }: StatementProps) {
     acc[monthLabel].push(transaction);
     return acc;
   }, {});
-
   return (
     <Box
       sx={{
@@ -92,7 +135,97 @@ export default function Statement({ initialTransactions }: StatementProps) {
         >
           {t("statement.title")}
         </Typography>
-
+        <FormControl fullWidth size="small" sx={{ mb: 2 }}>
+          <InputLabel id="type-filter-label">Tipo</InputLabel>
+          <Select
+            labelId="type-filter-label"
+            value={filterType}
+            label="Tipo"
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            <MenuItem value="all">{t("statement.all")}</MenuItem>
+            <MenuItem value="TRANSFER">{t("statement.transfer")}</MenuItem>
+            <MenuItem value="DEPOSIT">{t("statement.deposit")}</MenuItem>
+          </Select>
+        </FormControl>
+        <Button
+          variant="outlined"
+          onClick={() => setFilterOpen(true)}
+          sx={{ mb: 2 }}
+        >
+          {t("statement.filter.title")}
+        </Button>
+        <Dialog open={filterOpen} onClose={() => setFilterOpen(false)}>
+          <DialogTitle>{t("statement.filter.title")}</DialogTitle>
+          <DialogContent>
+            <TextField
+              label={t("statement.filter.startDate")}
+              type="date"
+              fullWidth
+              value={dateFrom}
+              style={{ marginTop: theme.spacing(2) }}
+              onChange={(e) => setDateFrom(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label={t("statement.filter.endDate")}
+              type="date"
+              fullWidth
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label={t("statement.filter.minValue")}
+              type="number"
+              fullWidth
+              value={minValue}
+              onChange={(e) => setMinValue(e.target.value)}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label={t("statement.filter.maxValue")}
+              type="number"
+              fullWidth
+              value={maxValue}
+              onChange={(e) => setMaxValue(e.target.value)}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label={t("statement.filter.description")}
+              fullWidth
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              sx={{ mb: 2 }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setFilterOpen(false)}>Fechar</Button>
+          </DialogActions>
+        </Dialog>
+        <Box
+          display="flex"
+          justifyContent="center"
+          mt={2}
+          gap={1}
+          style={{ marginBottom: theme.spacing(1) }}
+        >
+          {Array.from(
+            { length: Math.ceil(uniqueTransactions.length / limit) },
+            (_, i) => (
+              <Button
+                key={i + 1}
+                variant={page === i + 1 ? "contained" : "outlined"}
+                onClick={() => setPage(i + 1)}
+                sx={{ minWidth: 36, px: 0 }}
+              >
+                {i + 1}
+              </Button>
+            )
+          )}
+        </Box>
         <Box
           sx={{
             flexGrow: 1,
@@ -127,7 +260,21 @@ export default function Statement({ initialTransactions }: StatementProps) {
               </Typography>
 
               {monthTransactions.map((tx) => (
-                <TransactionItem key={tx.id} tx={tx} />
+                <Box key={tx.id} display="flex" alignItems="center">
+                  <TransactionItem tx={tx} />
+                  {tx.attachmentUrl && (
+                    <IconButton
+                      component="a"
+                      href={tx.attachmentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ ml: 1 }}
+                      title="Baixar anexo"
+                    >
+                      <AttachFileIcon color="primary" />
+                    </IconButton>
+                  )}
+                </Box>
               ))}
             </Box>
           ))}

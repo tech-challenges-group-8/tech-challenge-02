@@ -80,6 +80,15 @@
     "ok": "OK",
     "confirmDelete": "Are you sure you want to delete this transaction?",
     "deleteTransaction": "Delete transaction",
-    "saving": "Saving"
+    "saving": "Saving",
+    "all": "All",
+    "filter": {
+      "title":"Filter",
+      "minValue": "Minimum Value",
+      "maxValue": "Maximum Value",
+      "startDate": "Start Date", 
+      "endDate": "End Date",
+      "description": "Description"
+    }   
   }
 }

@@ -8,7 +8,11 @@ import {
   Select,
   Typography,
   useTheme,
+  Button,
+  IconButton,
 } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useSnackbar } from "notistack";
 import type { VariantType } from "notistack";
 import { useState } from "react";
@@ -19,6 +23,7 @@ import { useTransactions } from "../hooks/useTransactions";
 
 import LoadingButton from "./LoadingButton";
 import NumericInputField from "./NumericInputField";
+import { background } from "storybook/internal/theming";
 
 const TRANSACTION_TYPES = (t: any) => [
   { value: "DEPOSIT", label: t("newTransaction.typeDeposit") },
@@ -35,6 +40,7 @@ export default function NewTransaction() {
   const theme = useTheme();
   const { user } = useUser();
   const { t } = useTranslation();
+  const [file, setFile] = useState<File | null>(null);
 
   const commonInputStyles = {
     backgroundColor: "#fff",
@@ -51,6 +57,12 @@ export default function NewTransaction() {
 
   const handleFeedback = (variant: VariantType, message: string) => () => {
     enqueueSnackbar(message, { variant });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
   };
 
   const handleSubmit = async () => {
@@ -70,6 +82,14 @@ export default function NewTransaction() {
     setIsSubmitting(true);
     setError("");
 
+    const formData = new FormData();
+    formData.append("accountId", user?.account || "");
+    formData.append("type", type as "DEPOSIT" | "TRANSFER");
+    formData.append("value", parsedValue.toString());
+    if (file) {
+      formData.append("attachment", file);
+    }
+
     const newTransaction = {
       accountId: user?.account || "",
       type: type as "DEPOSIT" | "TRANSFER",
@@ -77,14 +97,25 @@ export default function NewTransaction() {
     };
 
     try {
-      await addTransaction(newTransaction);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/account/transaction`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) throw new Error("Erro ao adicionar transação");
+
       setType("");
       setValue("");
-
+      setFile(null);
       handleFeedback("success", "Transação cadastrada")();
     } catch (err) {
-      console.error("Erro ao adicionar transação:", err);
-      setError("Erro ao adicionar transação.");
+      setError("Erro ao adicionar transação." + err);
       handleFeedback("error", "Erro ao adicionar transação")();
     } finally {
       setIsSubmitting(false);
@@ -172,7 +203,35 @@ export default function NewTransaction() {
             {error}
           </Typography>
         )}
-
+        <Box display="flex" alignItems="center" gap={1}>
+          <Button
+            variant="outlined"
+            component="label"
+            startIcon={<AttachFileIcon />}
+            sx={{
+              width: { xs: "100%", sm: "250px" },
+              alignSelf: "flex-start",
+            }}
+          >
+            {file ? file.name : "Anexar arquivo"}
+            <input
+              type="file"
+              hidden
+              onChange={handleFileChange}
+              disabled={isSubmitting}
+            />
+          </Button>
+          {file && (
+            <IconButton
+              aria-label="Remover anexo"
+              onClick={() => setFile(null)}
+              disabled={isSubmitting}
+              sx={{ color: theme.palette.error.main }}
+            >
+              <ClearIcon />
+            </IconButton>
+          )}
+        </Box>
         <LoadingButton
           onClick={handleSubmit}
           isSubmitting={isSubmitting}

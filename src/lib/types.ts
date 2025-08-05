@@ -19,6 +19,8 @@ export type Transaction = {
   type: "DEPOSIT" | "TRANSFER";
   value: number;
   date: string;
+  description?: string;
+  attachmentUrl?: string;
 };
 
 export interface UserContextType {
