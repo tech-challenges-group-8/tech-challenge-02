@@ -1,12 +1,9 @@
-import { useState } from "react";
-
 import { transactionApi } from "../lib/transactionApi";
 import { useUser } from "../contexts/UserContext";
 import type { Transaction, User, NewTransaction } from "../lib/types";
 
 export const useTransactions = () => {
-  const { user, setUser } = useUser();
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const { user, setUser, transactions, setTransactions } = useUser();
 
   // Function to calculate new balance
   const calculateNewBalance = (
@@ -32,7 +29,7 @@ export const useTransactions = () => {
     try {
       const savedTx = await transactionApi.createTransaction(tx);
 
-      setTransactions((prev) => [...prev, savedTx]);
+      setTransactions([savedTx, ...transactions]);
       if (user) {
         const newBalance =
           savedTx.type === "DEPOSIT"
@@ -53,7 +50,7 @@ export const useTransactions = () => {
     try {
       await transactionApi.deleteTransaction(id);
 
-      setTransactions((prev) => prev.filter((t) => t.id !== id));
+      setTransactions(transactions.filter((t) => t.id !== id));
       if (user) {
         const updatedBalance =
           txToDelete.type === "DEPOSIT"
@@ -74,8 +71,8 @@ export const useTransactions = () => {
     try {
       const savedTx = await transactionApi.updateTransaction(updatedTx);
 
-      setTransactions((prev) =>
-        prev.map((t) => (t.id === savedTx.id ? savedTx : t))
+      setTransactions(
+        transactions.map((t) => (t.id === savedTx.id ? savedTx : t))
       );
       if (user) {
         setUser({
