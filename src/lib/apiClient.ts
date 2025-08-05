@@ -27,7 +27,7 @@ export const apiClient = {
 
   patch: async (endpoint: string, data?: any, options: RequestInit = {}) => {
     return fetch(`${BASE_URL}${endpoint}`, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         ...(options.headers as Record<string, string>),

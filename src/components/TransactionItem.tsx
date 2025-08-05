@@ -42,7 +42,7 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
 
   const handleDeleteConfirm = async () => {
     setLoading(true);
-    await deleteTransaction(tx.id);
+    await deleteTransaction(tx);
     setLoading(false);
     handleCloseDeleteModal();
   };
