@@ -157,6 +157,12 @@ Este projeto inclui um `Dockerfile` para criar a imagem do frontend e um arquivo
    - Subir os containers do frontend, backend e MongoDB
    - Expor o frontend em `http://localhost:5173` e o backend em `http://localhost:5000`
 
+   Se necessario recriar o build do front execute:
+
+   ```bash
+      docker compose up --build frontend
+   ```
+
 2. **Parar os containers:**
 
    ```bash

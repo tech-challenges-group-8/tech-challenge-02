@@ -31,18 +31,31 @@ services:
     networks:
       - tech-challenge-network
 
+  frontend-dashboard:
+    image: tech-challange-front-dashboard
+    container_name: tech-challenge-frontend-dashboard
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend-api
+    networks:
+      - tech-challenge-network
+
   frontend:
     build:
       context: .
       dockerfile: Dockerfile
       args:
         VITE_API_URL: http://localhost:5000
+        VITE_DASHBOARD_URL: http://localhost:3001
     container_name: tech-challenge-frontend
     restart: unless-stopped
     ports:
       - "3000:3000"
     depends_on:
       - backend-api
+      - frontend-dashboard
     networks:
       - tech-challenge-network
 
