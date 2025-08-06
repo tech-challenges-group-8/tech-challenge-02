@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 import { useUser } from "../contexts/UserContext";
 import TransactionItem from "./TransactionItem";
 import type { Transaction } from "../lib/types";
+import { getCommonInputStyles } from "../styles/commonStyles";
 
 import { transactionApi } from "../lib/transactionApi";
 
@@ -36,24 +37,89 @@ export default function Statement({ initialTransactions }: StatementProps) {
   const [page, setPage] = useState(1);
   const limit = 5;
 
+  // Get default date range (last 30 days)
+  const getDefaultDateRange = () => {
+    const today = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+
+    return {
+      from: thirtyDaysAgo.toISOString().split("T")[0],
+      to: today.toISOString().split("T")[0],
+    };
+  };
+
+  // Helper function to parse dd/mm/yyyy to Date object
+  const parseDate = (dateString: string) => {
+    if (!dateString) return null;
+
+    // Check if it's already in ISO format (yyyy-mm-dd)
+    if (dateString.includes("-") && dateString.length === 10) {
+      return new Date(dateString);
+    }
+
+    // Handle dd/mm/yyyy format
+    const parts = dateString.split("/");
+    if (parts.length === 3) {
+      const [day, month, year] = parts;
+      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    }
+
+    return new Date(dateString);
+  };
+
+  // Helper function to format date for comparison
+  const formatDateForComparison = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  };
+
   //Filtros
   const [filterType, setFilterType] = useState<string>("all");
   const [filterOpen, setFilterOpen] = useState(false);
-  const [dateFrom, setDateFrom] = useState<string>("");
-  const [dateTo, setDateTo] = useState<string>("");
+  const [dateFrom, setDateFrom] = useState<string>(getDefaultDateRange().from);
+  const [dateTo, setDateTo] = useState<string>(getDefaultDateRange().to);
   const [minValue, setMinValue] = useState<string>("");
   const [maxValue, setMaxValue] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   //end Filtros
+
+  const commonInputStyles = getCommonInputStyles(theme);
+
+  const clearFilters = () => {
+    const defaultRange = getDefaultDateRange();
+    setFilterType("all");
+    setDateFrom(defaultRange.from);
+    setDateTo(defaultRange.to);
+    setMinValue("");
+    setMaxValue("");
+    setDescription("");
+    setPage(1);
+  };
+
   const filteredTransactions = (initialTransactions || transactions).filter(
-    (t) =>
-      (filterType === "all" || t.type === filterType) &&
-      (!dateFrom || new Date(t.date) >= new Date(dateFrom)) &&
-      (!dateTo || new Date(t.date) <= new Date(dateTo)) &&
-      (!minValue || t.value >= Number(minValue)) &&
-      (!maxValue || t.value <= Number(maxValue)) &&
-      (!description || t.description?.toLowerCase().includes(description.toLowerCase())) // alterar por description
+    (t) => {
+      const transactionDate = parseDate(t.date);
+      const fromDate = dateFrom ? parseDate(dateFrom) : null;
+      const toDate = dateTo ? parseDate(dateTo) : null;
+
+      return (
+        (filterType === "all" || t.type === filterType) &&
+        (!fromDate ||
+          !transactionDate ||
+          formatDateForComparison(transactionDate) >=
+            formatDateForComparison(fromDate)) &&
+        (!toDate ||
+          !transactionDate ||
+          formatDateForComparison(transactionDate) <=
+            formatDateForComparison(toDate)) &&
+        (!minValue || t.value >= Number(minValue)) &&
+        (!maxValue || t.value <= Number(maxValue)) &&
+        (!description ||
+          t.description?.toLowerCase().includes(description.toLowerCase()))
+      );
+    }
   );
+
   const loadTransactions = useCallback(async () => {
     if (!user?.account) {
       setTransactions([]);
@@ -77,11 +143,6 @@ export default function Statement({ initialTransactions }: StatementProps) {
     loadTransactions();
   }, [user]);
 
-  // const displayTransactions = initialTransactions || transactions;
-
-  // const uniqueTransactions = Array.from(
-  //   new Map(displayTransactions.map((t) => [t.id, t])).values()
-  // );
   const uniqueTransactions = Array.from(
     new Map(filteredTransactions.map((t) => [t.id, t])).values()
   );
@@ -148,58 +209,110 @@ export default function Statement({ initialTransactions }: StatementProps) {
         <Button
           variant="outlined"
           onClick={() => setFilterOpen(true)}
-          sx={{ mb: 2 }}
+          sx={{ mb: 1 }}
         >
           {t("statement.filter.title")}
         </Button>
-        <Dialog open={filterOpen} onClose={() => setFilterOpen(false)}>
+        <Button
+          variant="text"
+          onClick={clearFilters}
+          sx={{
+            mb: 2,
+            color: theme.palette.text.secondary,
+            textTransform: "none",
+            fontSize: "0.875rem",
+          }}
+        >
+          {t("statement.filter.clear") || "Limpar filtros"}
+        </Button>
+        <Dialog
+          open={filterOpen}
+          onClose={() => setFilterOpen(false)}
+          maxWidth="sm"
+          fullWidth
+        >
           <DialogTitle>{t("statement.filter.title")}</DialogTitle>
-          <DialogContent>
-            <TextField
-              label={t("statement.filter.startDate")}
-              type="date"
-              fullWidth
-              value={dateFrom}
-              style={{ marginTop: theme.spacing(2) }}
-              onChange={(e) => setDateFrom(e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              label={t("statement.filter.endDate")}
-              type="date"
-              fullWidth
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              label={t("statement.filter.minValue")}
-              type="number"
-              fullWidth
-              value={minValue}
-              onChange={(e) => setMinValue(e.target.value)}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              label={t("statement.filter.maxValue")}
-              type="number"
-              fullWidth
-              value={maxValue}
-              onChange={(e) => setMaxValue(e.target.value)}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              label={t("statement.filter.description")}
-              fullWidth
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              sx={{ mb: 2 }}
-            />
+          <DialogContent sx={{ pt: 2 }}>
+            <Box display="flex" flexDirection="column" gap={2}>
+              <TextField
+                label={t("statement.filter.startDate")}
+                type="date"
+                fullWidth
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                sx={{
+                  ...commonInputStyles,
+                  "& input[type='date']::-webkit-calendar-picker-indicator": {
+                    cursor: "pointer",
+                  },
+                }}
+                inputProps={{
+                  max: dateTo || undefined,
+                }}
+              />
+              <TextField
+                label={t("statement.filter.endDate")}
+                type="date"
+                fullWidth
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                sx={{
+                  ...commonInputStyles,
+                  "& input[type='date']::-webkit-calendar-picker-indicator": {
+                    cursor: "pointer",
+                  },
+                }}
+                inputProps={{
+                  min: dateFrom || undefined,
+                }}
+              />
+              <TextField
+                label={t("statement.filter.minValue")}
+                type="number"
+                fullWidth
+                value={minValue}
+                onChange={(e) => setMinValue(e.target.value)}
+                sx={commonInputStyles}
+                inputProps={{
+                  min: 0,
+                  step: 0.01,
+                  max: maxValue || undefined,
+                }}
+              />
+              <TextField
+                label={t("statement.filter.maxValue")}
+                type="number"
+                fullWidth
+                value={maxValue}
+                onChange={(e) => setMaxValue(e.target.value)}
+                sx={commonInputStyles}
+                inputProps={{
+                  min: minValue || 0,
+                  step: 0.01,
+                }}
+              />
+              <TextField
+                label={t("statement.filter.description")}
+                fullWidth
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                sx={commonInputStyles}
+                placeholder={
+                  t("statement.filter.descriptionPlaceholder") ||
+                  "Digite parte da descrição..."
+                }
+              />
+            </Box>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setFilterOpen(false)}>Fechar</Button>
+          <DialogActions sx={{ p: 2, gap: 1 }}>
+            <Button onClick={clearFilters} color="secondary" variant="outlined">
+              {t("statement.filter.clear")}
+            </Button>
+            <Button onClick={() => setFilterOpen(false)} variant="contained">
+              {t("statement.filter.apply") || "Aplicar"}
+            </Button>
           </DialogActions>
         </Dialog>
         <Box

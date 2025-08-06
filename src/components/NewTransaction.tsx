@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 
 import { useUser } from "../contexts/UserContext";
 import { useTransactions } from "../hooks/useTransactions";
+import { getCommonInputStyles } from "../styles/commonStyles";
 
 import LoadingButton from "./LoadingButton";
 import NumericInputField from "./NumericInputField";
@@ -41,18 +42,7 @@ export default function NewTransaction() {
   const [file, setFile] = useState<File | null>(null);
   const [description, setDescription] = useState<string | null>(null);
 
-  const commonInputStyles = {
-    backgroundColor: "#fff",
-    border: `1px solid ${theme.palette.primary.main}`,
-    borderRadius: "8px",
-    "& .MuiInputBase-input": {
-      padding: "12px 8px",
-      height: "24px",
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: "none",
-    },
-  };
+  const commonInputStyles = getCommonInputStyles(theme);
 
   const handleFeedback = (variant: VariantType, message: string) => () => {
     enqueueSnackbar(message, { variant });

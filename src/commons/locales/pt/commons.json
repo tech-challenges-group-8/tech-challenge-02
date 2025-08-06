@@ -89,7 +89,11 @@
       "maxValue": "Valor Máximo",
       "startDate": "Data Inicial",
       "endDate": "Data Final",
-      "description": "Descrição"
+      "description": "Descrição",
+      "descriptionPlaceholder": "Digite parte da descrição...",
+      "clear": "Limpar filtros",
+      "close": "Fechar",
+      "apply": "Aplicar"
     }
   }
 }
