@@ -1,13 +1,9 @@
 "use client";
 
 import { Box, Typography, useTheme } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useUser } from "../contexts/UserContext";
-import { useTransactions } from "../hooks/useTransactions";
-import { transactionApi } from "../lib/transactionApi";
-
 import TransactionItem from "./TransactionItem";
 import type { Transaction } from "../lib/types";
 
@@ -18,32 +14,7 @@ interface StatementProps {
 export default function Statement({ initialTransactions }: StatementProps) {
   const { t } = useTranslation();
   const theme = useTheme();
-  const { user } = useUser();
-  const { setTransactions } = useTransactions();
-  const [transactions, setTransactionsInner] = useState<Transaction[]>([]);
-
-  const loadTransactions = useCallback(async () => {
-    if (!user?.account) {
-      setTransactions([]);
-      return;
-    }
-
-    try {
-      const transactionsData = await transactionApi.getTransactions(
-        user.account
-      );
-      setTransactions(transactionsData);
-      setTransactionsInner(transactionsData);
-    } catch (error) {
-      console.error("Erro de rede ao carregar transações:", error);
-      setTransactions([]);
-    }
-  }, [user?.balance]);
-
-  // useEffect to load transactions
-  useEffect(() => {
-    loadTransactions();
-  }, [user]);
+  const { transactions } = useUser();
 
   const displayTransactions = initialTransactions || transactions;
 

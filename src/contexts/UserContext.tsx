@@ -1,22 +1,22 @@
- 
 /* eslint-disable react-refresh/only-export-components */
-"use client";
-
 import {
   createContext,
   useContext,
   useState,
   useEffect,
+  useCallback,
   type ReactNode,
 } from "react";
 
 import { userApi } from "../lib/userApi";
-import type { UserContextType, User } from "../lib/types";
+import { transactionApi } from "../lib/transactionApi";
+import type { UserContextType, User, Transaction } from "../lib/types";
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const normalizeUser = (u: any): User => ({
     ...u,
@@ -44,11 +44,35 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     loadUserFromCookies();
   }, []);
 
+  const refreshTransactions = useCallback(async () => {
+    if (!user?.account) {
+      setTransactions([]);
+      return;
+    }
+
+    try {
+      const transactionsData = await transactionApi.getTransactions(user.account);
+      setTransactions(transactionsData);
+    } catch (error) {
+      console.error("Erro ao carregar transações:", error);
+      setTransactions([]);
+    }
+  }, [user?.account]);
+
+  useEffect(() => {
+    if (user?.account) {
+      refreshTransactions();
+    }
+  }, [user?.account, refreshTransactions]);
+
   return (
     <UserContext.Provider
       value={{
         user,
         setUser,
+        transactions,
+        setTransactions,
+        refreshTransactions,
       }}
     >
       {children}

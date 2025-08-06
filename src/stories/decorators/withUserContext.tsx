@@ -15,6 +15,9 @@ const mockUser = {
 const mockUserContext: UserContextType = {
   user: mockUser,
   setUser: () => {},
+  transactions: [],
+  setTransactions: () => {},
+  refreshTransactions: async () => Promise.resolve()
 };
 
 export const withUserContext = (Story: React.ComponentType) => (
