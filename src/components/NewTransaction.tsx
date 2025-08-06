@@ -93,8 +93,8 @@ export default function NewTransaction() {
       accountId: user?.account || "",
       type: type as "DEPOSIT" | "TRANSFER",
       value: parsedValue,
-      description: description || '',
-      anexo: file ? file.name : '',
+      description: description || "",
+      anexo: file ? file.name : "",
     };
 
     try {
@@ -102,7 +102,7 @@ export default function NewTransaction() {
       setType("");
       setValue("");
       setDescription("");
-      setFile(null)
+      setFile(null);
 
       handleFeedback("success", "Transação cadastrada")();
     } catch (err) {
@@ -146,7 +146,7 @@ export default function NewTransaction() {
             labelId="transaction-type-label"
             id="transaction-type-select"
             value={type}
-            label={t("newTransaction.typeLabel")}
+            label={t("newTransaction.typeLabel") || "Tipo"}
             onChange={(e) => {
               setType(e.target.value);
               if (error) setError("");
@@ -172,14 +172,18 @@ export default function NewTransaction() {
 
         <Box display="flex" flexDirection="column" gap={3}>
           <TextField
-            label={t("statement.filter.description") || "Descrição"}
+            label={t("newTransaction.description") || "Descrição"}
             type="text"
             fullWidth
-            value={description || ""}
+            value={description}
             style={{ marginTop: theme.spacing(2) }}
             onChange={(e) => setDescription(e.target.value)}
             InputLabelProps={{ shrink: true }}
-            sx={{ mb: 2 }}
+            sx={{
+              ...commonInputStyles,
+              mb: 2,
+              width: { xs: "100%", sm: "400px" },
+            }}
           />
           <Box display="flex" alignItems="center" gap={1}>
             <Button

@@ -19,6 +19,7 @@
     "errorInvalidValue": "Por favor, insira um valor válido maior que zero.",
     "typeLabel": "Tipo de transação",
     "valueLabel": "Valor",
+    "description": "Descrição",
     "valuePlaceholder": "0,00",
     "loadingButton": "Inserindo transação...",
     "completeButton": "Concluir transação",
