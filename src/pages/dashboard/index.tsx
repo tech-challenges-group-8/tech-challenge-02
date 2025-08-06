@@ -10,7 +10,6 @@ const DashboardApp = React.lazy(() => import("dashboard/DashboardApp"));
 export default function Dashboard() {
   const { transactions } = useUser();
 
-  console.log(transactions);
   return (
     <Box
       sx={{
@@ -21,7 +20,7 @@ export default function Dashboard() {
       }}
     >
       <Suspense fallback="Loading Remote...">
-        <DashboardApp />
+        <DashboardApp transactions={transactions} />
       </Suspense>
     </Box>
   );
