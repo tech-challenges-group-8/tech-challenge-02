@@ -105,13 +105,7 @@ export default function Statement({ initialTransactions }: StatementProps) {
     acc[monthLabel].push(transaction);
     return acc;
   }, {});
-  useEffect(() => {
-    if (transactions.length > 0) {
-      console.log("Tipos disponíveis:", [
-        ...new Set(transactions.map((t) => t.type)),
-      ]);
-    }
-  }, [transactions]);
+
   return (
     <Box
       sx={{
