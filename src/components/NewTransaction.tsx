@@ -172,7 +172,7 @@ export default function NewTransaction() {
 
         <Box display="flex" flexDirection="column" gap={3}>
           <TextField
-            label={t("Description") || "Descrição"}
+            label={t("statement.filter.description") || "Descrição"}
             type="text"
             fullWidth
             value={description || ""}
