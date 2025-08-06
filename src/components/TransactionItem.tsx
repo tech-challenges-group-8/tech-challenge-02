@@ -13,6 +13,7 @@ import {
   Fade,
   Backdrop,
 } from "@mui/material";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -74,7 +75,6 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
     setEditedValue(parsed.toString());
     setEditError("");
   };
-
   return (
     <Box mb={theme.spacing(2)}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -134,6 +134,11 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
           <Typography variant="caption" color={theme.palette.text.secondary}>
             {new Date(tx.date).toLocaleDateString("pt-BR")}
           </Typography>
+
+          <br />
+          <Typography variant="caption" color={theme.palette.text.secondary}>
+            {tx.description || ""}
+          </Typography>
         </Box>
 
         <Box>
@@ -153,6 +158,23 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
               }}
             />
           </IconButton>
+          {tx.anexo && (
+            <IconButton
+              component="a"
+              href={'https://i.ytimg.com/vi/-881wGRdhWc/maxresdefault.jpg'}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                ml: 1,
+                fontSize: 18,
+                color: theme.palette.primary.main,
+                width: 18,
+              }}
+              title={tx.anexo}
+            >
+              <AttachFileIcon color="primary" />
+            </IconButton>
+          )}
         </Box>
       </Box>
       <Divider sx={{ mt: theme.spacing(1) }} />

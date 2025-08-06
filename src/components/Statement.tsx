@@ -21,8 +21,7 @@ import { useTranslation } from "react-i18next";
 import { useUser } from "../contexts/UserContext";
 import TransactionItem from "./TransactionItem";
 import type { Transaction } from "../lib/types";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import IconButton from "@mui/material/IconButton";
+
 import { transactionApi } from "../lib/transactionApi";
 
 interface StatementProps {
@@ -44,7 +43,7 @@ export default function Statement({ initialTransactions }: StatementProps) {
   const [dateTo, setDateTo] = useState<string>("");
   const [minValue, setMinValue] = useState<string>("");
   const [maxValue, setMaxValue] = useState<string>("");
-  const [id, setId] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   //end Filtros
   const filteredTransactions = (initialTransactions || transactions).filter(
     (t) =>
@@ -53,7 +52,7 @@ export default function Statement({ initialTransactions }: StatementProps) {
       (!dateTo || new Date(t.date) <= new Date(dateTo)) &&
       (!minValue || t.value >= Number(minValue)) &&
       (!maxValue || t.value <= Number(maxValue)) &&
-      (!id || t.id?.toLowerCase().includes(id.toLowerCase())) // alterar por description
+      (!description || t.description?.toLowerCase().includes(description.toLowerCase())) // alterar por description
   );
   const loadTransactions = useCallback(async () => {
     if (!user?.account) {
@@ -194,8 +193,8 @@ export default function Statement({ initialTransactions }: StatementProps) {
             <TextField
               label={t("statement.filter.description")}
               fullWidth
-              value={id}
-              onChange={(e) => setId(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               sx={{ mb: 2 }}
             />
           </DialogContent>
@@ -257,20 +256,8 @@ export default function Statement({ initialTransactions }: StatementProps) {
                 {month}
               </Typography>
               {monthTransactions.map((tx) => (
-                <Box key={tx.id} display="flex" alignItems="center">
+                <Box key={tx.description} display="flex" alignItems="center">
                   <TransactionItem tx={tx} />
-                  {tx.attachmentUrl && (
-                    <IconButton
-                      component="a"
-                      href={tx.attachmentUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{ ml: 1 }}
-                      title="Baixar anexo"
-                    >
-                      <AttachFileIcon color="primary" />
-                    </IconButton>
-                  )}
                 </Box>
               ))}
             </Box>

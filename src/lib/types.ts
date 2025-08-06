@@ -21,7 +21,7 @@ export type Transaction = {
   value: number;
   date: string;
   description?: string;
-  attachmentUrl?: string;
+  anexo?: string;
 };
 
 export interface UserContextType {

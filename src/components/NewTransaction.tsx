@@ -93,12 +93,16 @@ export default function NewTransaction() {
       accountId: user?.account || "",
       type: type as "DEPOSIT" | "TRANSFER",
       value: parsedValue,
+      description: description || '',
+      anexo: file ? file.name : '',
     };
 
     try {
       await addTransaction(newTransaction);
       setType("");
       setValue("");
+      setDescription("");
+      setFile(null)
 
       handleFeedback("success", "Transação cadastrada")();
     } catch (err) {

@@ -17,8 +17,6 @@ export const transactionApi = {
   },
 
   createTransaction: async (transaction: NewTransaction) => {
-    transaction.description = 'asdasdsad';
-    transaction.anexo = 'https://i.ytimg.com/vi/-881wGRdhWc/maxresdefault.jpg'
     const response = await apiClient.post("/account/transaction", transaction);
 
     const data = await response.json();

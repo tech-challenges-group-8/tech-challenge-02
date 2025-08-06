@@ -28,7 +28,6 @@ export const useTransactions = () => {
   const addTransaction = async (tx: NewTransaction) => {
     try {
       const savedTx = await transactionApi.createTransaction(tx);
-
       setTransactions([savedTx, ...transactions]);
       if (user) {
         const newBalance =
@@ -44,14 +43,14 @@ export const useTransactions = () => {
 
   // Delete Transaction
   const deleteTransaction = async (transaction: Transaction) => {
-    //const txToDelete = transactions.find((t) => t.id === id);
-    const txToDelete = transaction;
+    const txToDelete = transactions.find((t) => t.id === transaction.id);
+    // const txToDelete = transaction;
     if (!txToDelete) return;
 
     try {
       await transactionApi.deleteTransaction(transaction.id, transaction.accountId);
 
-      setTransactions(transactions.filter((t) => t.id !== id));
+      setTransactions(transactions.filter((t) => t.id !== transaction.id));
       if (user) {
         const updatedBalance =
           txToDelete.type === "DEPOSIT"
@@ -66,8 +65,8 @@ export const useTransactions = () => {
 
   // Edit Transaction
   const editTransaction = async (updatedTx: Transaction) => {
-    //const oldTx = transactions.find((t) => t.id === updatedTx.id);
-    const oldTx = updatedTx;
+    const oldTx = transactions.find((t) => t.id === updatedTx.id);
+    // const oldTx = updatedTx;
     if (!oldTx) return;
 
     try {
