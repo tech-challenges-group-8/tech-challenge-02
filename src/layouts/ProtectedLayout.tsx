@@ -1,6 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline, Box } from "@mui/material";
-import { SnackbarProvider } from "notistack";
 import { Suspense } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import BalanceCard from "../components/BalanceCard";
@@ -29,51 +28,42 @@ const ProtectedLayout = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Suspense fallback={<div>Loading...</div>}>
-        <SnackbarProvider
-          maxSnack={3}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          autoHideDuration={5000} // 5 seconds
-        >
-          <UserProvider>
-            <Box>
-              <Header />
+        <UserProvider>
+          <Box>
+            <Header />
+            <Box
+              sx={{
+                display: "flex",
+                backgroundColor: theme.palette.background.default,
+                padding: "16px",
+                gap: "16px",
+                justifyContent: "center",
+                alignItems: "flex-start",
+                flexDirection: {
+                  xs: "column",
+                  sm: "column",
+                  lg: "row",
+                },
+              }}
+            >
+              <Sidebar />
               <Box
                 sx={{
-                  display: "flex",
-                  backgroundColor: theme.palette.background.default,
-                  padding: "16px",
-                  gap: "16px",
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  flexDirection: {
-                    xs: "column",
-                    sm: "column",
-                    lg: "row",
+                  display: "grid",
+                  gridGap: "16px",
+                  width: {
+                    xs: `calc(100% - ${theme.spacing(2)})`,
+                    md: "100%",
                   },
                 }}
               >
-                <Sidebar />
-                <Box
-                  sx={{
-                    display: "grid",
-                    gridGap: "16px",
-                    width: {
-                      xs: `calc(100% - ${theme.spacing(2)})`,
-                      md: "100%",
-                    },
-                  }}
-                >
-                  <BalanceCard />
-                  <Outlet />
-                </Box>
-                <Statement />
+                <BalanceCard />
+                <Outlet />
               </Box>
+              <Statement />
             </Box>
-          </UserProvider>
-        </SnackbarProvider>
+          </Box>
+        </UserProvider>
       </Suspense>
     </ThemeProvider>
   );
