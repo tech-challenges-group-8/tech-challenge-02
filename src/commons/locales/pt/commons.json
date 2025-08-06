@@ -19,6 +19,7 @@
     "errorInvalidValue": "Por favor, insira um valor válido maior que zero.",
     "typeLabel": "Tipo de transação",
     "valueLabel": "Valor",
+    "description": "Descrição",
     "valuePlaceholder": "0,00",
     "loadingButton": "Inserindo transação...",
     "completeButton": "Concluir transação",
@@ -80,6 +81,19 @@
     "ok": "OK",
     "confirmDelete": "Tem certeza que deseja excluir esta transação?",
     "deleteTransaction": "Deletar transação",
-    "saving": "Salvando"
+    "saving": "Salvando",
+    "all": "Todos",
+    "filter": {
+      "title": "Filtrar",
+      "minValue": "Valor Mínimo",
+      "maxValue": "Valor Máximo",
+      "startDate": "Data Inicial",
+      "endDate": "Data Final",
+      "description": "Descrição",
+      "descriptionPlaceholder": "Digite parte da descrição...",
+      "clear": "Limpar filtros",
+      "close": "Fechar",
+      "apply": "Aplicar"
+    }
   }
 }

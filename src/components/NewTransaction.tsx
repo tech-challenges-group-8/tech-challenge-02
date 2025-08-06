@@ -6,7 +6,12 @@ import {
   Select,
   Typography,
   useTheme,
+  Button,
+  TextField,
 } from "@mui/material";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ClearIcon from "@mui/icons-material/Clear";
+import IconButton from "@mui/material/IconButton";
 import { useSnackbar } from "notistack";
 import type { VariantType } from "notistack";
 import { useState } from "react";
@@ -14,6 +19,7 @@ import { useTranslation } from "react-i18next";
 
 import { useUser } from "../contexts/UserContext";
 import { useTransactions } from "../hooks/useTransactions";
+import { getCommonInputStyles } from "../styles/commonStyles";
 
 import LoadingButton from "./LoadingButton";
 import NumericInputField from "./NumericInputField";
@@ -33,22 +39,19 @@ export default function NewTransaction() {
   const theme = useTheme();
   const { user } = useUser();
   const { t } = useTranslation();
+  const [file, setFile] = useState<File | null>(null);
+  const [description, setDescription] = useState<string | null>(null);
 
-  const commonInputStyles = {
-    backgroundColor: "#fff",
-    border: `1px solid ${theme.palette.primary.main}`,
-    borderRadius: "8px",
-    "& .MuiInputBase-input": {
-      padding: "12px 8px",
-      height: "24px",
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: "none",
-    },
-  };
+  const commonInputStyles = getCommonInputStyles(theme);
 
   const handleFeedback = (variant: VariantType, message: string) => () => {
     enqueueSnackbar(message, { variant });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
   };
 
   const handleSubmit = async () => {
@@ -68,16 +71,28 @@ export default function NewTransaction() {
     setIsSubmitting(true);
     setError("");
 
+    const formData = new FormData();
+    formData.append("accountId", user?.account || "");
+    formData.append("type", type as "DEPOSIT" | "TRANSFER");
+    formData.append("value", parsedValue.toString());
+    if (file) {
+      formData.append("attachment", file);
+    }
+
     const newTransaction = {
       accountId: user?.account || "",
       type: type as "DEPOSIT" | "TRANSFER",
       value: parsedValue,
+      description: description || "",
+      anexo: file ? file.name : "",
     };
 
     try {
       await addTransaction(newTransaction);
       setType("");
       setValue("");
+      setDescription("");
+      setFile(null);
 
       handleFeedback("success", "Transação cadastrada")();
     } catch (err) {
@@ -121,7 +136,7 @@ export default function NewTransaction() {
             labelId="transaction-type-label"
             id="transaction-type-select"
             value={type}
-            label={t("newTransaction.typeLabel")}
+            label={t("newTransaction.typeLabel") || "Tipo"}
             onChange={(e) => {
               setType(e.target.value);
               if (error) setError("");
@@ -146,6 +161,49 @@ export default function NewTransaction() {
         </FormControl>
 
         <Box display="flex" flexDirection="column" gap={3}>
+          <TextField
+            label={t("newTransaction.description") || "Descrição"}
+            type="text"
+            fullWidth
+            value={description}
+            style={{ marginTop: theme.spacing(2) }}
+            onChange={(e) => setDescription(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            sx={{
+              ...commonInputStyles,
+              mb: 2,
+              width: { xs: "100%", sm: "400px" },
+            }}
+          />
+          <Box display="flex" alignItems="center" gap={1}>
+            <Button
+              variant="outlined"
+              component="label"
+              startIcon={<AttachFileIcon />}
+              sx={{
+                width: { xs: "100%", sm: "250px" },
+                alignSelf: "flex-start",
+              }}
+            >
+              {file ? file.name : "Anexar arquivo"}
+              <input
+                type="file"
+                hidden
+                onChange={handleFileChange}
+                disabled={isSubmitting}
+              />
+            </Button>
+            {file && (
+              <IconButton
+                aria-label="Remover anexo"
+                onClick={() => setFile(null)}
+                disabled={isSubmitting}
+                sx={{ color: theme.palette.error.main }}
+              >
+                <ClearIcon />
+              </IconButton>
+            )}
+          </Box>
           <NumericInputField
             value={value}
             onChange={(e) => {

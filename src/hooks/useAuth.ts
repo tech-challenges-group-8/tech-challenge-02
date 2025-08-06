@@ -72,7 +72,6 @@ export const useAuth = () => {
       localStorage.setItem("token", data.result.token);
       setIsAuthenticated(true);
       handleClickVariant("success", t("account.loginSuccess"))();
-      console.log("go to dashboard");
       navigate("/dashboard");
       return { success: true };
     } catch (err: any) {

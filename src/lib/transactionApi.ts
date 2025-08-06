@@ -28,8 +28,9 @@ export const transactionApi = {
     return data.result;
   },
 
-  deleteTransaction: async (id: string) => {
-    const response = await apiClient.delete(`/transaction/${id}`);
+  deleteTransaction: async (transactionId: string, accountId: string) => {
+    
+    const response = await apiClient.delete(`/account/${accountId}/transaction/${transactionId}/`);
 
     if (!response.ok) {
       throw new Error("Failed to delete transaction");
@@ -38,7 +39,7 @@ export const transactionApi = {
 
   updateTransaction: async (transaction: Transaction) => {
     const response = await apiClient.patch(
-      `/transaction/${transaction.id}`,
+      `/account/${transaction.accountId}/transaction/${transaction.id}/`,
       transaction
     );
 

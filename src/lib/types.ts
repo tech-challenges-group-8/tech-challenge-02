@@ -10,6 +10,8 @@ export type NewTransaction = {
   accountId: string;
   type: "DEPOSIT" | "TRANSFER";
   value: number;
+  anexo?: string | null;
+  description?: string;
 };
 
 export type Transaction = {
@@ -18,6 +20,8 @@ export type Transaction = {
   type: "DEPOSIT" | "TRANSFER";
   value: number;
   date: string;
+  description?: string;
+  anexo?: string;
 };
 
 export interface UserContextType {

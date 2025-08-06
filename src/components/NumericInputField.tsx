@@ -44,6 +44,7 @@ export default function NumericInputField({
       onChange={onChange}
       placeholder={placeholder || t("newTransaction.valuePlaceholder")}
       type="number"
+      label={t("newTransaction.valueLabel")}
       error={error}
       helperText={helperText}
       InputProps={{
