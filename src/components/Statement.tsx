@@ -15,8 +15,6 @@ import {
   TextField,
   DialogActions,
 } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import IconButton from "@mui/material/IconButton";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -26,6 +24,8 @@ import { transactionApi } from "../lib/transactionApi";
 
 import TransactionItem from "./TransactionItem";
 import type { Transaction } from "../lib/types";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import IconButton from "@mui/material/IconButton";
 
 interface StatementProps {
   initialTransactions?: Transaction[];
@@ -105,6 +105,13 @@ export default function Statement({ initialTransactions }: StatementProps) {
     acc[monthLabel].push(transaction);
     return acc;
   }, {});
+  useEffect(() => {
+    if (transactions.length > 0) {
+      console.log("Tipos disponíveis:", [
+        ...new Set(transactions.map((t) => t.type)),
+      ]);
+    }
+  }, [transactions]);
   return (
     <Box
       sx={{
@@ -258,7 +265,6 @@ export default function Statement({ initialTransactions }: StatementProps) {
               >
                 {month}
               </Typography>
-
               {monthTransactions.map((tx) => (
                 <Box key={tx.id} display="flex" alignItems="center">
                   <TransactionItem tx={tx} />

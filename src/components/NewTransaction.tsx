@@ -9,10 +9,11 @@ import {
   Typography,
   useTheme,
   Button,
-  IconButton,
+  TextField,
 } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ClearIcon from "@mui/icons-material/Clear";
+import IconButton from "@mui/material/IconButton";
 import { useSnackbar } from "notistack";
 import type { VariantType } from "notistack";
 import { useState } from "react";
@@ -23,7 +24,6 @@ import { useTransactions } from "../hooks/useTransactions";
 
 import LoadingButton from "./LoadingButton";
 import NumericInputField from "./NumericInputField";
-import { background } from "storybook/internal/theming";
 
 const TRANSACTION_TYPES = (t: any) => [
   { value: "DEPOSIT", label: t("newTransaction.typeDeposit") },
@@ -41,6 +41,7 @@ export default function NewTransaction() {
   const { user } = useUser();
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
+  const [description, setDescription] = useState<string | null>(null);
 
   const commonInputStyles = {
     backgroundColor: "#fff",
@@ -97,25 +98,14 @@ export default function NewTransaction() {
     };
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/account/transaction`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-          },
-          body: formData,
-        }
-      );
-
-      if (!response.ok) throw new Error("Erro ao adicionar transação");
-
+      await addTransaction(newTransaction);
       setType("");
       setValue("");
-      setFile(null);
+
       handleFeedback("success", "Transação cadastrada")();
     } catch (err) {
-      setError("Erro ao adicionar transação." + err);
+      console.error("Erro ao adicionar transação:", err);
+      setError("Erro ao adicionar transação.");
       handleFeedback("error", "Erro ao adicionar transação")();
     } finally {
       setIsSubmitting(false);
@@ -179,6 +169,45 @@ export default function NewTransaction() {
         </FormControl>
 
         <Box display="flex" flexDirection="column" gap={3}>
+          <TextField
+            label={t("Description") || "Descrição"}
+            type="text"
+            fullWidth
+            value={description || ""}
+            style={{ marginTop: theme.spacing(2) }}
+            onChange={(e) => setDescription(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            sx={{ mb: 2 }}
+          />
+          <Box display="flex" alignItems="center" gap={1}>
+            <Button
+              variant="outlined"
+              component="label"
+              startIcon={<AttachFileIcon />}
+              sx={{
+                width: { xs: "100%", sm: "250px" },
+                alignSelf: "flex-start",
+              }}
+            >
+              {file ? file.name : "Anexar arquivo"}
+              <input
+                type="file"
+                hidden
+                onChange={handleFileChange}
+                disabled={isSubmitting}
+              />
+            </Button>
+            {file && (
+              <IconButton
+                aria-label="Remover anexo"
+                onClick={() => setFile(null)}
+                disabled={isSubmitting}
+                sx={{ color: theme.palette.error.main }}
+              >
+                <ClearIcon />
+              </IconButton>
+            )}
+          </Box>
           <NumericInputField
             value={value}
             onChange={(e) => {
@@ -203,35 +232,7 @@ export default function NewTransaction() {
             {error}
           </Typography>
         )}
-        <Box display="flex" alignItems="center" gap={1}>
-          <Button
-            variant="outlined"
-            component="label"
-            startIcon={<AttachFileIcon />}
-            sx={{
-              width: { xs: "100%", sm: "250px" },
-              alignSelf: "flex-start",
-            }}
-          >
-            {file ? file.name : "Anexar arquivo"}
-            <input
-              type="file"
-              hidden
-              onChange={handleFileChange}
-              disabled={isSubmitting}
-            />
-          </Button>
-          {file && (
-            <IconButton
-              aria-label="Remover anexo"
-              onClick={() => setFile(null)}
-              disabled={isSubmitting}
-              sx={{ color: theme.palette.error.main }}
-            >
-              <ClearIcon />
-            </IconButton>
-          )}
-        </Box>
+
         <LoadingButton
           onClick={handleSubmit}
           isSubmitting={isSubmitting}

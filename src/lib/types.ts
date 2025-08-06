@@ -11,6 +11,8 @@ export type NewTransaction = {
   accountId: string;
   type: "DEPOSIT" | "TRANSFER";
   value: number;
+  anexo?: string | null;
+  description?: string;
 };
 
 export type Transaction = {
