@@ -19,9 +19,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useUser } from "../contexts/UserContext";
-import { useTransactions } from "../hooks/useTransactions";
-import { transactionApi } from "../lib/transactionApi";
-
 import TransactionItem from "./TransactionItem";
 import type { Transaction } from "../lib/types";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -34,8 +31,7 @@ interface StatementProps {
 export default function Statement({ initialTransactions }: StatementProps) {
   const { t } = useTranslation();
   const theme = useTheme();
-  const { user } = useUser();
-  const { setTransactions } = useTransactions();
+  const { user, setTransactions } = useUser();
   const [transactions, setTransactionsInner] = useState<Transaction[]>([]);
   const [page, setPage] = useState(1);
   const limit = 5;

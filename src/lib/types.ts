@@ -1,4 +1,3 @@
-
 export interface User {
   account: string;
   name: string;
@@ -28,4 +27,7 @@ export type Transaction = {
 export interface UserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
+  transactions: Transaction[];
+  setTransactions: (transactions: Transaction[]) => void;
+  refreshTransactions: () => Promise<void>;
 }
