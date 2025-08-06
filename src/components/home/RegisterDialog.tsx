@@ -61,9 +61,14 @@ const RegisterDialog: React.FC<RegisterDialogProps> = ({
 }) => {
   return (
     <BootstrapDialog
-      onClose={onClose}
+      onClose={(reason) => {
+        if (reason !== "backdropClick" && reason !== "escapeKeyDown") {
+          onClose();
+        }
+      }}
       aria-labelledby="customized-dialog-title"
       open={isOpen}
+      disableEscapeKeyDown
     >
       <IconButton
         aria-label="close"
