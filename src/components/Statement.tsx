@@ -23,6 +23,7 @@ import TransactionItem from "./TransactionItem";
 import type { Transaction } from "../lib/types";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
+import { transactionApi } from "../lib/transactionApi";
 
 interface StatementProps {
   initialTransactions?: Transaction[];
