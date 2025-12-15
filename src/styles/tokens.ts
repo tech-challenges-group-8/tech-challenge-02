@@ -4,6 +4,7 @@ export const COLORS = {
     dark: "#0F4A7B",
     light: "#3FAE8C",
     contrast: "#FF5031",
+    accent: "#006B80",
   },
   alert: {
     error: "#FF5031",
@@ -14,7 +15,11 @@ export const COLORS = {
     700: "#4A5568", // Texto secundário
     600: "#47A138", // Texto active
     500: "#6B7280", // Texto desativado/menu inactive
+    450: "#d9d9d980",
+    400: "#d9d9d9",
     300: "#D1D5DB", // Bordas/inactive
+    250: "#cbcbcb",
+    200: "#dee9ea",
     100: "#e4ede3", // Fundo claro
     white: "#FFFFFF",
   },

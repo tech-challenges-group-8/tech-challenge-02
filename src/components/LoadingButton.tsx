@@ -32,7 +32,7 @@ export default function LoadingButton({
         width: { xs: "100%", sm: "250px" },
         height: "48px",
         "&:hover": {
-          backgroundColor: "#006B80",
+          backgroundColor: theme.palette.info?.main || "#006B80",
         },
         ...sx,
       }}

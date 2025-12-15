@@ -23,6 +23,7 @@ import { getCommonInputStyles } from "../styles/commonStyles";
 
 import LoadingButton from "./LoadingButton";
 import NumericInputField from "./NumericInputField";
+import PageTitle from "./PageTitle";
 
 const TRANSACTION_TYPES = (t: any) => [
   { value: "DEPOSIT", label: t("newTransaction.typeDeposit") },
@@ -106,15 +107,7 @@ export default function NewTransaction() {
 
   return (
     <>
-      <Typography
-        variant="h4"
-        fontWeight="bold"
-        color="#dee9ea"
-        mb={2}
-        sx={{ color: { xs: theme.palette.primary.main, sm: "#dee9ea" } }}
-      >
-        {t("newTransaction.title")}
-      </Typography>
+      <PageTitle>{t("newTransaction.title")}</PageTitle>
 
       <Box display="flex" flexDirection="column" gap={3}>
         <FormControl

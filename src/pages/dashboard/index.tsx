@@ -1,14 +1,9 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import theme from "../../styles/theme";
 import { Box } from "@mui/material";
-import { useUser } from "../../contexts/UserContext";
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const DashboardApp = React.lazy(() => import("dashboard/DashboardApp"));
+import PageTitle from "../../components/PageTitle";
 
 export default function Dashboard() {
-  const { transactions } = useUser();
 
   return (
     <Box
@@ -17,10 +12,12 @@ export default function Dashboard() {
         width: "100%",
         minHeight: "400px",
         display: "flex",
+        flexDirection: "column",
       }}
     >
+      <PageTitle>Dashboard</PageTitle>
       <Suspense fallback="Loading Remote...">
-        <DashboardApp transactions={transactions} />
+        Substituir dashboard
       </Suspense>
     </Box>
   );

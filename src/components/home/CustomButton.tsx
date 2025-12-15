@@ -5,19 +5,19 @@ import { Button, styled } from "@mui/material";
 const CustomButton = styled(Button)(({ theme }) => ({
   width: "180px",
   height: "48px",
-  borderRadius: "8px",
-  backgroundColor: "#47A138",
-  color: "#FFFFFF",
+  borderRadius: `${theme.shape.borderRadius}px`,
+  backgroundColor: theme.palette.action.active,
+  color: theme.palette.common.white,
   fontWeight: 600,
   fontSize: "16px",
-  border: "2px solid #47A138",
+  border: `2px solid ${theme.palette.action.active}`,
   textTransform: "none",
   transition: "all 0.3s ease",
   padding: "0px",
 
   "&:hover": {
     backgroundColor: "transparent",
-    color: "#47A138",
+    color: theme.palette.action.active,
   },
   [theme.breakpoints.down("lg")]: {
     width: "144px",
@@ -25,8 +25,8 @@ const CustomButton = styled(Button)(({ theme }) => ({
     fontSize: "16px",
   },
   [theme.breakpoints.down("sm")]: {
-    backgroundColor: "#000000",
-    border: "2px solid #000000",
+    backgroundColor: theme.palette.common.black,
+    border: `2px solid ${theme.palette.common.black}`,
   },
 }));
 

@@ -8,6 +8,9 @@ const theme = createTheme({
       main: COLORS.brand.main,
       contrastText: COLORS.brand.contrast,
     },
+    info: {
+      main: COLORS.brand.accent,
+    },
     secondary: {
       main: COLORS.alert.error,
       contrastText: COLORS.neutral.white,
@@ -32,6 +35,12 @@ const theme = createTheme({
     common: {
       black: COLORS.neutral[900],
       white: COLORS.neutral.white,
+    },
+    // expose some neutral variants for direct theme access
+    neutral: {
+      400: COLORS.neutral[400],
+      250: COLORS.neutral[250],
+      200: COLORS.neutral[200],
     },
   },
   typography: {
