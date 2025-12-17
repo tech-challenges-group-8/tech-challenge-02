@@ -25,24 +25,9 @@ services:
       - MONGO_URI=mongodb://admin:password@mongodb:27017/techchallenge?authSource=admin
       - PORT=5000
     ports:
-      - "5000:5000"
+      - "5001:5000"
     depends_on:
       - mongodb
-    networks:
-      - tech-challenge-network
-
-  frontend-dashboard:
-    build:
-      context: ./submodules/dashboard
-      dockerfile: ./Dockerfile
-      args:
-        VITE_API_URL: http://localhost:5000
-    container_name: tech-challenge-frontend-dashboard
-    restart: unless-stopped
-    ports:
-      - "3001:3001"
-    depends_on:
-      - backend-api
     networks:
       - tech-challenge-network
 
@@ -51,7 +36,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: http://localhost:5000
+        VITE_API_URL: http://localhost:5001
         VITE_DASHBOARD_URL: http://localhost:3001
     container_name: tech-challenge-frontend
     restart: unless-stopped
@@ -59,7 +44,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend-api
-      - frontend-dashboard
     networks:
       - tech-challenge-network
 

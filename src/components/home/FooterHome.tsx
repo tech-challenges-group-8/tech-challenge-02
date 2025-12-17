@@ -3,80 +3,58 @@
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { Box, List, ListItem, ListItemText, styled } from "@mui/material";
+import { Box, List, ListItemText, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Logo from "../../assets/logo-branco.svg";
+import { FooterList, CustomListItem } from "./FooterList";
 
-// ListItem customizado (opcional para controle de padding ou outros estilos)
-const CustomListItem = styled(ListItem)(() => ({
-    padding: '2px 0',
-}));
+// Exported helpers that build arrays using the translator `t` for clarity
+const footerServices = (t: (key: string) => string) => [
+  t("footerHome.servicesTitle"),
+  t("footerHome.checkingAccount"),
+  t("footerHome.businessAccount"),
+  t("footerHome.creditCard"),
+];
+
+const footerContacts = (t: (key: string) => string) => [
+  t("footerHome.contactTitle"),
+  "0800 004 250 08",
+  "meajuda@bytebank.com.br",
+  "ouvidoria@bytebank.com.br",
+];
 
 export default function FooterHome() {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
+  const theme = useTheme();
     return (
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#000000",
-          color: "#fff",
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
         }}
       >
         <Box
           sx={{
-            display: { xs: "flex", sm: "flex", md: "flex" },
-            justifyContent: { xs: "center", sm: "space-between" },
-            flexWrap: "wrap",
-            width: "100%",
-            maxWidth: "1200px",
-            padding: { xs: "20px 50px", sm: "20px" },
+          display: { xs: "flex", sm: "flex", md: "flex" },
+          justifyContent: { xs: "center", sm: "space-between" },
+          flexWrap: "wrap",
+          width: "100%",
+          maxWidth: "1200px",
+          padding: { xs: "20px 50px", sm: "20px" },
           }}
         >
-          <List sx={{ width: "100%", maxWidth: 220 }}>
-            {[
-              t("footerHome.servicesTitle"),
-              t("footerHome.checkingAccount"),
-              t("footerHome.businessAccount"),
-              t("footerHome.creditCard"),
-            ].map((item, index) => (
-              <CustomListItem key={item}>
-                <ListItemText
-                  primary={item}
-                  primaryTypographyProps={{
-                    fontSize: "16px",
-                    fontWeight: index === 0 ? 700 : 400,
-                  }}
-                />
-              </CustomListItem>
-            ))}
-          </List>
-          <List sx={{ width: "100%", maxWidth: 220 }}>
-            {[
-              t("footerHome.contactTitle"),
-              "0800 004 250 08",
-              "meajuda@bytebank.com.br",
-              "ouvidoria@bytebank.com.br",
-            ].map((item, index) => (
-              <CustomListItem key={item}>
-                <ListItemText
-                  primary={item}
-                  primaryTypographyProps={{
-                    fontSize: "16px",
-                    fontWeight: index === 0 ? 700 : 400,
-                  }}
-                />
-              </CustomListItem>
-            ))}
-          </List>
+          <FooterList items={footerServices(t)} />
+          <FooterList items={footerContacts(t)} />
           <List
             sx={{
               width: "100%",
               maxWidth: 220,
               display: "flex",
               flexDirection: "column",
-              gap: "16px",
+            gap: theme.spacing(2),
             }}
           >
             <CustomListItem>
@@ -101,12 +79,12 @@ export default function FooterHome() {
               sx={{
                 display: "flex",
                 justifyContent: { xs: "left", sm: "center" },
-                gap: "16px",
+                gap: theme.spacing(2),
               }}
             >
-              <InstagramIcon sx={{ color: "#fff", fontSize: "32px" }} />
-              <WhatsAppIcon sx={{ color: "#fff", fontSize: "32px" }} />
-              <YouTubeIcon sx={{ color: "#fff", fontSize: "32px" }} />
+              <InstagramIcon sx={{ color: theme.palette.common.white, fontSize: "32px" }} />
+              <WhatsAppIcon sx={{ color: theme.palette.common.white, fontSize: "32px" }} />
+              <YouTubeIcon sx={{ color: theme.palette.common.white, fontSize: "32px" }} />
             </CustomListItem>
           </List>
         </Box>

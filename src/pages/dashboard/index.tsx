@@ -134,6 +134,7 @@ export default function Dashboard() {
         width: "100%",
         minHeight: "400px",
         display: "flex",
+        flexDirection: "column",
       }}
     >
       <PageTitle>Dashboard</PageTitle>

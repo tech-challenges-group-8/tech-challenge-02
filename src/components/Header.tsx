@@ -1,14 +1,10 @@
 "use client";
 
-import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
   Toolbar,
   Typography,
   Box,
-  Avatar,
-  useTheme,
-  IconButton,
   Menu,
   MenuItem,
   Link,
@@ -18,41 +14,40 @@ import { useTranslation } from "react-i18next";
 
 import { useUser } from "../contexts/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import MenuIconButton from "./icons/MenuIconButton";
+import UserAvatarButton from "./icons/UserAvatarButton";
 
+// Small reusable hook to manage anchor element state for MUI Menus
+const useAnchor = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleOpen = (event: React.MouseEvent<HTMLElement>) =>
+    setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+  return { anchorEl, open, handleOpen, handleClose };
+};
 const Header = () => {
-  const theme = useTheme();
   const { user, setUser } = useUser();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const [sidebarAnchorEl, setSidebarAnchorEl] = useState<null | HTMLElement>(
-    null
-  );
-  const sidebarOpen = Boolean(sidebarAnchorEl);
+  const account = useAnchor();
+  const sidebar = useAnchor();
   const location = useLocation();
   const pathname = location.pathname;
 
-  const handleSidebarMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setSidebarAnchorEl(event.currentTarget);
-  };
+  const handleSidebarMenu = sidebar.handleOpen;
+  const handleSidebarClose = sidebar.handleClose;
 
-  const handleSidebarClose = () => {
-    setSidebarAnchorEl(null);
-  };
+  const sidebarMenuItems = [
+    { href: "/dashboard", labelKey: "sidebar.home" },
+    { href: "/transactions", labelKey: "sidebar.transactions" },
+    { href: "/investiments", labelKey: "sidebar.investments" },
+    { href: "/services", labelKey: "sidebar.services" },
+  ];
 
   const handleLogout = async () => {
-    handleClose();
+    account.handleClose();
     try {
       setUser(null);
       localStorage.removeItem("token");
@@ -66,19 +61,10 @@ const Header = () => {
     <AppBar position="static">
       <Toolbar sx={{ justifyContent: "space-between", height: "68px" }}>
         {/* Sidebar Menu Icon for xs screens */}
-        <IconButton
-          sx={{ display: { xs: "block", sm: "none" } }}
-          edge="start"
-          color="inherit"
-          aria-label="menu"
+        <MenuIconButton
           onClick={handleSidebarMenu}
-          aria-controls={sidebarOpen ? "sidebar-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={sidebarOpen ? "true" : undefined}
-        >
-          <MenuIcon />
-        </IconButton>
-
+          open={sidebar.open}
+        />
         {/* Placeholder for balance on mobile (if needed, otherwise remove) */}
         <Box sx={{ visibility: { xs: "hidden", md: "visible" } }}>
           {/* This box might be removed or repurposed later if balance is moved */}
@@ -87,33 +73,18 @@ const Header = () => {
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography
             variant="body2"
-            sx={{ marginRight: 3, color: theme.palette.secondary.contrastText }}
+            sx={{ marginRight: 3, color: "inherit" }}
           >
             {user?.name}
           </Typography>
-          <IconButton
-            onClick={handleMenu}
-            aria-controls={open ? "menu-appbar" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            color="inherit"
-            sx={{ padding: 0 }}
-          >
-            <Avatar
-              sx={{
-                border: `2px solid ${theme.palette.primary.contrastText}`,
-                color: theme.palette.primary.contrastText,
-                backgroundColor: "transparent",
-                width: "40px",
-                height: "40px",
-              }}
-            >
-              {user?.name?.charAt(0) || "U"}
-            </Avatar>
-          </IconButton>
+          <UserAvatarButton
+            userName={user?.name}
+            onClick={account.handleOpen}
+            open={account.open}
+          />
           <Menu
             id="menu-appbar"
-            anchorEl={anchorEl}
+            anchorEl={account.anchorEl}
             anchorOrigin={{
               vertical: "top",
               horizontal: "right",
@@ -123,8 +94,8 @@ const Header = () => {
               vertical: "top",
               horizontal: "right",
             }}
-            open={open}
-            onClose={handleClose}
+            open={account.open}
+            onClose={account.handleClose}
           >
             <MenuItem onClick={handleLogout}>{t("header.logout")}</MenuItem>
           </Menu>
@@ -134,7 +105,7 @@ const Header = () => {
       {/* Sidebar Menu for xs screens */}
       <Menu
         id="sidebar-menu"
-        anchorEl={sidebarAnchorEl}
+        anchorEl={sidebar.anchorEl}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left",
@@ -143,44 +114,23 @@ const Header = () => {
           vertical: "top",
           horizontal: "left",
         }}
-        open={sidebarOpen}
-        onClose={handleSidebarClose}
+        open={sidebar.open}
+        onClose={sidebar.handleClose}
         MenuListProps={{
           "aria-labelledby": "sidebar-menu-button",
         }}
       >
-        <MenuItem
-          component={Link}
-          href="/dashboard"
-          onClick={handleSidebarClose}
-          selected={pathname === "/dashboard"}
-        >
-          {t("sidebar.home")}
-        </MenuItem>
-        <MenuItem
-          component={Link}
-          href="/transactions"
-          onClick={handleSidebarClose}
-          selected={pathname === "/transactions"}
-        >
-          {t("sidebar.transactions")}
-        </MenuItem>
-        <MenuItem
-          component={Link}
-          href="/investiments"
-          onClick={handleSidebarClose}
-          selected={pathname === "/investiments"}
-        >
-          {t("sidebar.investments")}
-        </MenuItem>
-        <MenuItem
-          component={Link}
-          href="/services"
-          onClick={handleSidebarClose}
-          selected={pathname === "/services"}
-        >
-          {t("sidebar.services")}
-        </MenuItem>
+        {sidebarMenuItems.map((item) => (
+          <MenuItem
+            key={item.href}
+            component={Link}
+            href={item.href}
+            onClick={handleSidebarClose}
+            selected={pathname === item.href}
+          >
+            {t(item.labelKey)}
+          </MenuItem>
+        ))}
       </Menu>
     </AppBar>
   );
