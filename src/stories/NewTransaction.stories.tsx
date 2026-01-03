@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import NewTransaction from '..//components/NewTransaction';
+import { NewTransaction } from '../components/features';
 
 import { withI18n } from './decorators/withI18n';
 import { withTheme } from './decorators/withTheme';

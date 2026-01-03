@@ -1,10 +1,10 @@
-import CardBackground from "../../components/CardBackground";
-import NewTransactionCard from "../../components/NewTransaction";
+import { CardBackground } from "../../components/ui";
+import { NewTransaction } from "../../components/features";
 
 export default function Transactions() {
   return (
     <CardBackground>
-      <NewTransactionCard />
+      <NewTransaction />
     </CardBackground>
   );
 }

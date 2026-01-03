@@ -1,6 +1,5 @@
 import { Container } from "@mui/material";
-import CardBackground from "../../components/CardBackground";
-import PageTitle from "../../components/PageTitle";
+import { CardBackground, PageTitle } from "../../components/ui";
 
 export default function Services() {
   return (

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React, { useState } from 'react';
 
-import NumericInputField from '..//components/NumericInputField';
+import { NumericInputField } from '../components/ui';
 
 import { withI18n } from './decorators/withI18n';
 import { withTheme } from './decorators/withTheme';

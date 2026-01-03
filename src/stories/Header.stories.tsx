@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Header from '../components/Header';
+import { Header } from '../components/features';
 
 import { withI18n } from './decorators/withI18n';
 import { withUserContext } from './decorators/withUserContext';

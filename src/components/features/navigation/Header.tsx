@@ -12,7 +12,7 @@ import {
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useUser } from "../contexts/UserContext";
+import { useUser } from "../../../contexts/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import MenuIconButton from "./icons/MenuIconButton";
 import UserAvatarButton from "./icons/UserAvatarButton";

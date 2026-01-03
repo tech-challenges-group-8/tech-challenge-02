@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from "react-router-dom";
 
-import Sidebar from '..//components/Sidebar';
+import { Sidebar } from '../components/features';
 
 const meta = {
   title: "Layout/Sidebar",

@@ -1,7 +1,4 @@
-"use client";
-
 import { Box } from "@mui/material";
-import React from "react";
 
 interface BoxMatrixBackgroundProps {
   matrix: number[][];
@@ -11,13 +8,16 @@ interface BoxMatrixBackgroundProps {
   borderRadiusIndex?: number;
 }
 
-const BoxMatrixBackground: React.FC<BoxMatrixBackgroundProps> = ({
+/**
+ * BoxMatrixBackground - Decorative background pattern for cards
+ */
+const BoxMatrixBackground = ({
   matrix,
   colors,
   position,
   boxSize = 45,
   borderRadiusIndex,
-}) => {
+}: BoxMatrixBackgroundProps) => {
   const flatMatrix = matrix.flat();
 
   const sxProps =

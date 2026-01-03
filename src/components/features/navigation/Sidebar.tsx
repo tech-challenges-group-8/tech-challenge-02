@@ -89,7 +89,7 @@ const Sidebar = () => {
       >
         <SidebarItem href="/dashboard" text={t("sidebar.home")} />
         <SidebarItem href="/transactions" text={t("sidebar.transactions")} />
-        <SidebarItem href="/investiments" text={t("sidebar.investments")} />
+        <SidebarItem href="/investments" text={t("sidebar.investments")} />
         <SidebarItem href="/services" text={t("sidebar.services")} />
       </List>
     </Box>

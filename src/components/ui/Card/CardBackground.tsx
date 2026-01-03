@@ -1,15 +1,20 @@
-"use client";
-
 import { Box, Paper, useTheme } from "@mui/material";
-
+import type { ReactNode } from "react";
 import BoxMatrixBackground from "./BoxMatrixBackground";
-import { COLORS } from "../styles/tokens";
+import { COLORS } from "../../../styles/tokens";
 
+export interface CardBackgroundProps {
+  children: ReactNode;
+  minHeight?: string | number;
+}
+
+/**
+ * CardBackground - Card with decorative matrix background pattern
+ */
 export default function CardBackground({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  minHeight = "400px",
+}: CardBackgroundProps) {
   const theme = useTheme();
   const bg = COLORS.neutral[250];
   const light = COLORS.neutral[200];
@@ -22,7 +27,7 @@ export default function CardBackground({
       sx={{
         borderRadius: `${theme.shape.borderRadius}px`,
         width: "100%",
-        minHeight: "400px",
+        minHeight,
         display: "flex",
       }}
     >

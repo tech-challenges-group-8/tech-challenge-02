@@ -2,9 +2,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import useInitI18n from "../../commons/useInitI18n";
 
-import BodyHome from "../../components/home/BodyHome";
-import FooterHome from "../../components/home/FooterHome";
-import HeaderHome from "../../components/home/HeaderHome";
+import { BodyHome, FooterHome, HeaderHome } from "../../components/landing";
 import theme from "../../styles/theme";
 
 export default function Home() {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import BalanceCard from '../components/BalanceCard';
+import { BalanceCard } from '../components/features';
 
 import { withI18n } from './decorators/withI18n';
 import { withTheme } from './decorators/withTheme';

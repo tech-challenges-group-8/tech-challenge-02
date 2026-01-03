@@ -17,11 +17,10 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useTransactions } from "../hooks/useTransactions";
+import { useTransactions } from "../../../hooks/useTransactions";
 
-import LoadingButton from "./LoadingButton";
-import NumericInputField from "./NumericInputField";
-import type { Transaction } from "../lib/types";
+import { LoadingButton, NumericInputField } from "../../ui";
+import type { Transaction } from "../../../lib/types";
 
 interface TransactionItemProps {
   tx: Transaction;
@@ -76,7 +75,7 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
     setEditError("");
   };
   return (
-    <Box mb={theme.spacing(2)}>
+    <Box mb={theme.spacing(2)} width="100%">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box>
           <Typography variant="body2" color={theme.palette.primary.main}>

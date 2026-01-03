@@ -1,9 +1,7 @@
-"use client";
-
 import { TextField, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-interface NumericInputFieldProps {
+export interface NumericInputFieldProps {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;
@@ -11,8 +9,12 @@ interface NumericInputFieldProps {
   helperText?: string;
   sx?: object;
   disabled?: boolean;
+  label?: string;
 }
 
+/**
+ * NumericInputField - Styled numeric input field for currency/amounts
+ */
 export default function NumericInputField({
   value,
   onChange,
@@ -21,6 +23,7 @@ export default function NumericInputField({
   helperText,
   sx,
   disabled,
+  label,
 }: NumericInputFieldProps) {
   const theme = useTheme();
   const { t } = useTranslation();
@@ -44,7 +47,7 @@ export default function NumericInputField({
       onChange={onChange}
       placeholder={placeholder || t("newTransaction.valuePlaceholder")}
       type="number"
-      label={t("newTransaction.valueLabel")}
+      label={label || t("newTransaction.valueLabel")}
       error={error}
       helperText={helperText}
       InputProps={{

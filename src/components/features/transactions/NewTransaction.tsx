@@ -17,13 +17,11 @@ import type { VariantType } from "notistack";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useUser } from "../contexts/UserContext";
-import { useTransactions } from "../hooks/useTransactions";
-import { getCommonInputStyles } from "../styles/commonStyles";
+import { useUser } from "../../../contexts/UserContext";
+import { useTransactions } from "../../../hooks/useTransactions";
+import { getCommonInputStyles } from "../../../styles/commonStyles";
 
-import LoadingButton from "./LoadingButton";
-import NumericInputField from "./NumericInputField";
-import PageTitle from "./PageTitle";
+import { LoadingButton, NumericInputField, PageTitle } from "../../ui";
 
 const TRANSACTION_TYPES = (t: any) => [
   { value: "DEPOSIT", label: t("newTransaction.typeDeposit") },

@@ -1,6 +1,5 @@
-import theme from "../../styles/theme";
-import { Box } from "@mui/material";
-import PageTitle from "../../components/PageTitle";
+import { Container } from "@mui/material";
+import { CardBackground, PageTitle } from "../../components/ui";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ChartOptions } from "chart.js";
@@ -82,7 +81,6 @@ export default function Dashboard() {
       );
       setTransactions(transactionsData);
       setTransactionsInner(transactionsData);
-      console.log("transactionsData", transactionsData);
     } catch (error) {
       console.error("Erro de rede ao carregar transações:", error);
       setTransactions([]);
@@ -128,17 +126,11 @@ export default function Dashboard() {
     };
   }, [transactions]);
   return (
-    <Box
-      sx={{
-        borderRadius: theme.shape.borderRadius,
-        width: "100%",
-        minHeight: "400px",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <PageTitle>Dashboard</PageTitle>
-      <Line options={chartOptions} data={chartData} />
-    </Box>
+    <CardBackground>
+      <Container>
+        <PageTitle>Dashboard</PageTitle>
+        <Line options={chartOptions} data={chartData} />
+      </Container>
+    </CardBackground>
   );
 }

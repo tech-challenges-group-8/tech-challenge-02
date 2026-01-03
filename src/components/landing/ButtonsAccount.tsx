@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { useAuth } from "../../hooks/useAuth";
 
-import CustomButton from "./CustomButton";
+import { CustomButton } from "../ui";
 import LoginDialog from "./LoginDialog";
 import RegisterDialog from "./RegisterDialog";
 

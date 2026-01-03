@@ -4,7 +4,7 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 import LandingPage from "./pages/landingpage";
 import Dashboard from "./pages/dashboard";
 import Transactions from "./pages/transactions";
-import Investiments from "./pages/investiments";
+import Investments from "./pages/investments";
 import Services from "./pages/services";
 import { SnackbarProvider } from "notistack";
 
@@ -28,7 +28,7 @@ function App() {
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
-          <Route path="/investiments" element={<Investiments />} />
+          <Route path="/investments" element={<Investments />} />
           <Route path="/services" element={<Services />} />
         </Route>
       </Routes>
