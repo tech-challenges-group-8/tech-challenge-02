@@ -1,4 +1,3 @@
-import React from "react";
 import { List, ListItem, ListItemText, styled } from "@mui/material";
 
 export const CustomListItem = styled(ListItem)(() => ({
