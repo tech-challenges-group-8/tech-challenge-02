@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
 
@@ -65,16 +66,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [user?.account, refreshTransactions]);
 
+  const contextValue = useMemo(
+    () => ({
+      user,
+      setUser,
+      transactions,
+      setTransactions,
+      refreshTransactions,
+    }),
+    [user, transactions, refreshTransactions]
+  );
+
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        transactions,
-        setTransactions,
-        refreshTransactions,
-      }}
-    >
+    <UserContext.Provider value={contextValue}>
       {children}
     </UserContext.Provider>
   );

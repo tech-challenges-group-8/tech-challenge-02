@@ -26,7 +26,7 @@ const useAnchor = () => {
   const handleClose = () => setAnchorEl(null);
   return { anchorEl, open, handleOpen, handleClose };
 };
-const Header = () => {
+const Header = React.memo(() => {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -134,6 +134,8 @@ const Header = () => {
       </Menu>
     </AppBar>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;

@@ -1,6 +1,6 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 
 interface MenuIconButtonProps {
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
@@ -8,7 +8,7 @@ interface MenuIconButtonProps {
   ariaLabel?: string;
 }
 
-const MenuIconButton: React.FC<MenuIconButtonProps> = ({
+const MenuIconButton: React.FC<MenuIconButtonProps> = memo(({
   onClick,
   open,
   ariaLabel = "menu",
@@ -27,6 +27,8 @@ const MenuIconButton: React.FC<MenuIconButtonProps> = ({
       <MenuIcon />
     </IconButton>
   );
-};
+});
+
+MenuIconButton.displayName = 'MenuIconButton';
 
 export default MenuIconButton;

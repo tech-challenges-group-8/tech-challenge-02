@@ -1,5 +1,5 @@
 import { Avatar, useTheme, IconButton } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 
 interface UserAvatarButtonProps {
   userName: string | undefined;
@@ -7,7 +7,7 @@ interface UserAvatarButtonProps {
   open: boolean;
 }
 
-const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({
+const UserAvatarButton: React.FC<UserAvatarButtonProps> = memo(({
   userName,
   onClick,
   open,
@@ -36,6 +36,8 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({
       </Avatar>
     </IconButton>
   );
-};
+});
+
+UserAvatarButton.displayName = 'UserAvatarButton';
 
 export default UserAvatarButton;

@@ -9,12 +9,12 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useUser } from "../../../contexts/UserContext";
 
-const BalanceCard = () => {
+const BalanceCard = memo(() => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { user } = useUser();
@@ -99,6 +99,8 @@ const BalanceCard = () => {
       </Box>
     </Box>
   );
-};
+});
+
+BalanceCard.displayName = 'BalanceCard';
 
 export default BalanceCard;

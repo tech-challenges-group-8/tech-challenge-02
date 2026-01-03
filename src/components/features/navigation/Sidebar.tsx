@@ -8,7 +8,7 @@ import {
   ListItemText,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
@@ -17,10 +17,10 @@ interface SidebarItemProps {
   text: string;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ href, text }) => {
+const SidebarItem: React.FC<SidebarItemProps> = memo(({ href, text }) => {
   const theme = useTheme();
-const location = useLocation();
-const pathname = location.pathname;
+  const location = useLocation();
+  const pathname = location.pathname;
   const isActive = pathname === href;
 
   return (
@@ -56,9 +56,11 @@ const pathname = location.pathname;
       />
     </ListItemButton>
   );
-};
+});
 
-const Sidebar = () => {
+SidebarItem.displayName = 'SidebarItem';
+
+const Sidebar = memo(() => {
   const theme = useTheme();
   const { t } = useTranslation();
 
@@ -94,6 +96,8 @@ const Sidebar = () => {
       </List>
     </Box>
   );
-};
+});
+
+Sidebar.displayName = 'Sidebar';
 
 export default Sidebar;
