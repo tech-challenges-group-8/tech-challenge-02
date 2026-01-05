@@ -17,6 +17,7 @@ export default function Dashboard() {
         width: "100%",
         minHeight: "400px",
         display: "flex",
+        flexDirection: "column",
       }}
     >
       <Suspense fallback="Loading Remote...">

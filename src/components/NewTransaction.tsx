@@ -23,6 +23,7 @@ import { getCommonInputStyles } from "../styles/commonStyles";
 
 import LoadingButton from "./LoadingButton";
 import NumericInputField from "./NumericInputField";
+import PageTitle from "./PageTitle";
 
 const TRANSACTION_TYPES = (t: any) => [
   { value: "DEPOSIT", label: t("newTransaction.typeDeposit") },
@@ -49,9 +50,27 @@ export default function NewTransaction() {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
+
+    const allowedExtensions = ["image/jpeg", "image/png", "application/pdf"];
+    if (!allowedExtensions.includes(selectedFile.type)) {
+      handleFeedback(
+        "error",
+        "Apenas arquivos JPG, PNG ou PDF são permitidos"
+      )();
+      e.target.value = "";
+      return;
     }
+
+    const maxSize = 5 * 1024 * 1024;
+    if (selectedFile.size > maxSize) {
+      handleFeedback("error", "O arquivo deve ter no máximo 5MB")();
+      e.target.value = "";
+      return;
+    }
+
+    setFile(selectedFile);
   };
 
   const handleSubmit = async () => {
@@ -106,15 +125,13 @@ export default function NewTransaction() {
 
   return (
     <>
-      <Typography
-        variant="h4"
-        fontWeight="bold"
-        color="#dee9ea"
-        mb={2}
-        sx={{ color: { xs: theme.palette.primary.main, sm: "#dee9ea" } }}
+      <PageTitle
+        sx={{
+          marginBottom: "44px",
+        }}
       >
         {t("newTransaction.title")}
-      </Typography>
+      </PageTitle>
 
       <Box display="flex" flexDirection="column" gap={3}>
         <FormControl
@@ -127,8 +144,15 @@ export default function NewTransaction() {
             id="transaction-type-label"
             sx={{
               color: type ? theme.palette.primary.main : undefined,
-              "&.Mui-focused": { color: theme.palette.primary.main },
+              "&.Mui-focused": {
+                color: theme.palette.primary.main,
+                top: "-15px",
+                left: "-15px",
+              },
+              top: "-15px",
+              left: "-10px",
             }}
+            className="InputLabelCustom"
           >
             {t("newTransaction.typeLabel")}
           </InputLabel>
@@ -162,17 +186,36 @@ export default function NewTransaction() {
 
         <Box display="flex" flexDirection="column" gap={3}>
           <TextField
-            label={t("newTransaction.description") || "Descrição"}
+            label={t("newTransaction.description")}
             type="text"
             fullWidth
             value={description}
             style={{ marginTop: theme.spacing(2) }}
             onChange={(e) => setDescription(e.target.value)}
             InputLabelProps={{ shrink: true }}
+            inputProps={{ maxLength: 255 }}
+            slotProps={{
+              htmlInput: {
+                maxLength: 255,
+              },
+              inputLabel: {
+                shrink: true,
+                sx: {
+                  top: "-15px",
+                  left: "-12px",
+                  "&.Mui-focused": {
+                    color: theme.palette.primary.main,
+                  },
+                },
+              },
+            }}
             sx={{
               ...commonInputStyles,
               mb: 2,
               width: { xs: "100%", sm: "400px" },
+              "& .MuiOutlinedInput-notchedOutline legend": {
+                display: "none",
+              },
             }}
           />
           <Box display="flex" alignItems="center" gap={1}>
@@ -218,7 +261,8 @@ export default function NewTransaction() {
                 textAlign: "center",
               },
             }}
-            error={!!error}
+            error={!!error || (value !== "" && parseFloat(value) < 0.01)}
+            helperText={error}
             disabled={isSubmitting}
           />
         </Box>

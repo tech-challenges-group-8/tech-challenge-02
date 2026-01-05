@@ -1,13 +1,12 @@
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import CardBackground from "../../components/CardBackground";
+import PageTitle from "../../components/PageTitle";
 
 export default function Investiments() {
   return (
     <CardBackground>
       <Container>
-        <Typography variant="h4" gutterBottom>
-          Investimentos
-        </Typography>
+        <PageTitle>Investimentos</PageTitle>
       </Container>
     </CardBackground>
   );

@@ -3,6 +3,7 @@
 import { Box, Paper, useTheme } from "@mui/material";
 
 import BoxMatrixBackground from "./BoxMatrixBackground";
+import { COLORS } from "../styles/tokens";
 
 export default function CardBackground({
   children,
@@ -10,11 +11,16 @@ export default function CardBackground({
   children: React.ReactNode;
 }>) {
   const theme = useTheme();
+  const bg = COLORS.neutral[250];
+  const light = COLORS.neutral[200];
+  const mid = COLORS.neutral[400];
+  const gray = COLORS.neutral[450];
+  const colors = [bg, light, mid, gray];
 
   return (
     <Box
       sx={{
-        borderRadius: theme.shape.borderRadius,
+        borderRadius: `${theme.shape.borderRadius}px`,
         width: "100%",
         minHeight: "400px",
         display: "flex",
@@ -23,11 +29,11 @@ export default function CardBackground({
       <Paper
         elevation={3}
         sx={{
-          padding: 4,
+          padding: theme.spacing(4),
           width: "100%",
-          backgroundColor: "#cbcbcb",
+          backgroundColor: bg,
           position: "relative",
-          borderRadius: theme.shape.borderRadius,
+          borderRadius: `${theme.shape.borderRadius}px`,
         }}
       >
         <BoxMatrixBackground
@@ -37,7 +43,7 @@ export default function CardBackground({
             [0, 0, 1, 0],
             [0, 0, 3, 1],
           ]}
-          colors={["#cbcbcb", "#dee9ea", "#d9d9d9", "#d9d9d980"]}
+          colors={colors}
           position="top-right"
           borderRadiusIndex={3}
         />
@@ -48,7 +54,7 @@ export default function CardBackground({
             [0, 2, 1, 0],
             [0, 3, 0, 1],
           ]}
-          colors={["#cbcbcb", "#dee9ea", "#d9d9d9", "#d9d9d980"]}
+          colors={colors}
           position="bottom-left"
           borderRadiusIndex={12}
         />
