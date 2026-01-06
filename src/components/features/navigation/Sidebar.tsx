@@ -2,7 +2,6 @@
 
 import {
   Box,
-  Link,
   List,
   ListItemButton,
   ListItemText,
@@ -10,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 interface SidebarItemProps {
   href: string;
@@ -25,8 +24,8 @@ const SidebarItem: React.FC<SidebarItemProps> = memo(({ href, text }) => {
 
   return (
     <ListItemButton
-      LinkComponent={Link}
-      href={href}
+      component={Link}
+      to={href}
       sx={{
         borderLeft: {
           sm: "none",

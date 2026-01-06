@@ -1,12 +1,28 @@
+import { lazy, Suspense, type ComponentType } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import LandingPage from "./pages/landingpage";
-import Dashboard from "./pages/dashboard";
-import Transactions from "./pages/transactions";
-import Investments from "./pages/investments";
-import Services from "./pages/services";
+import PageLoader from "./components/ui/PageLoader";
 import { SnackbarProvider } from "notistack";
+
+const Dashboard = lazy(() => import("./pages/dashboard"));
+const Transactions = lazy(() => import("./pages/transactions"));
+const Investments = lazy(() => import("./pages/investments"));
+const Services = lazy(() => import("./pages/services"));
+
+const LazyRoute = ({ Component }: { Component: ComponentType }) => (
+  <Suspense fallback={<PageLoader />}>
+    <Component />
+  </Suspense>
+);
+
+const protectedRoutes = [
+  { path: "/dashboard", component: Dashboard },
+  { path: "/transactions", component: Transactions },
+  { path: "/investments", component: Investments },
+  { path: "/services", component: Services },
+];
 
 function App() {
   return (
@@ -23,13 +39,10 @@ function App() {
         <Route path="/" element={<LandingPage />} />
 
         {/* PROTECTED ROUTES */}
-        {/* All routes nested inside ProtectedLayout will share its UI */}
-        {/* and will only be accessible if the user is authenticated */}
         <Route element={<ProtectedLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/investments" element={<Investments />} />
-          <Route path="/services" element={<Services />} />
+          {protectedRoutes.map(({ path, component: Component }) => (
+            <Route key={path} path={path} element={<LazyRoute Component={Component} />} />
+          ))}
         </Route>
       </Routes>
     </SnackbarProvider>
