@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "start": "serve -s dist -l 3000",
+    "start": "serve -s dist -l 3000 -n",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

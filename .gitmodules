@@ -2,6 +2,3 @@
 [submodule "submodules/backend"]
 	path = submodules/backend
 	url = https://github.com/tech-challenges-group-8/tech-challenge-backend.git
-[submodule "submodules/dashboard"]
-	path = submodules/dashboard
-	url = https://github.com/tech-challenges-group-8/tech-challenge-02-dashboard.git

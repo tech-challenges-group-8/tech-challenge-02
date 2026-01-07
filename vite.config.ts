@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
       cssCodeSplit: false,
     },
     server: {
-      port: 5174,
+      port: 3000,
     },
   };
 });

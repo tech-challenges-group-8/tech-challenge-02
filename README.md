@@ -22,8 +22,8 @@ Make sure you have the following installed on your system:
 First, clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/your-username/financial-management.git
-cd financial-management
+git clone https://github.com/tech-challenges-group-8/tech-challenge-04.git
+git submodule update --init --recursive
 npm install
 ```
 
@@ -34,7 +34,7 @@ To start the development server, run:
 ```bash
 npm run dev
 ```
-Open http://localhost:5173 in your browser to view the app.
+Open http://localhost:3000 in your browser to view the app.
 
 ## Building for Production
 To build the app for production, run:
@@ -155,7 +155,7 @@ Este projeto inclui um `Dockerfile` para criar a imagem do frontend e um arquivo
    Isso irá:
    - Construir a imagem do frontend usando o `Dockerfile`
    - Subir os containers do frontend, backend e MongoDB
-   - Expor o frontend em `http://localhost:5173` e o backend em `http://localhost:5000`
+   - Expor o frontend em `http://localhost:3000` e o backend em `http://localhost:5000`
 
    Se necessario recriar o build do front execute:
 
