@@ -1,25 +1,25 @@
-# Financial Management App
+# Aplicação de Gestão Financeira
 
-This is a **Financial Management** application built with [Vite](https://vitejs.dev), [Material-UI](https://mui.com/), and [React Router](https://reactrouter.com/). The app provides a clean and responsive interface for managing financial data, including dashboards, transactions, investments, and services.
+Esta é uma aplicação de **Gestão Financeira** construída com [Vite](https://vitejs.dev), [Material-UI](https://mui.com/), e [React Router](https://reactrouter.com/). A aplicação oferece uma interface limpa e responsiva para gerenciar dados financeiros, incluindo dashboards, transações, investimentos e serviços.
 
-## Features
+## Funcionalidades
 
-- **Vite**: Fast build tool with hot module replacement and optimized performance.
-- **Material-UI**: Modern and accessible UI components.
-- **React Router**: Client-side routing for seamless navigation.
-- **ESLint**: Code linting with custom rules for clean and maintainable code.
-- **TypeScript**: Strongly typed codebase for better developer experience.
+- **Vite**: Ferramenta de build rápida com hot module replacement e performance otimizada.
+- **Material-UI**: Componentes de UI modernos e acessíveis.
+- **React Router**: Roteamento client-side para navegação fluida.
+- **ESLint**: Linting de código com regras customizadas para código limpo e manutenível.
+- **TypeScript**: Base de código fortemente tipada para melhor experiência do desenvolvedor.
 
-## Prerequisites
+## Pré-requisitos
 
-Make sure you have the following installed on your system:
+Certifique-se de ter os seguintes itens instalados no seu sistema:
 
-- [Node.js](https://nodejs.org/) (v23 or higher recommended)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [Node.js](https://nodejs.org/) (v23 ou superior recomendado)
+- [npm](https://www.npmjs.com/) (vem com Node.js)
 
-## Getting Started
+## Começando
 
-First, clone the repository and install the dependencies:
+Primeiro, clone o repositório e instale as dependências:
 
 ```bash
 git clone https://github.com/tech-challenges-group-8/tech-challenge-04.git
@@ -27,102 +27,133 @@ git submodule update --init --recursive
 npm install
 ```
 
-## Running the Development Server
+## Executando o Servidor de Desenvolvimento
 
-To start the development server, run:
+Para iniciar o servidor de desenvolvimento, execute:
 
 ```bash
 npm run dev
 ```
-Open http://localhost:3000 in your browser to view the app.
+Abra http://localhost:3000 no seu navegador para visualizar a aplicação.
 
-## Building for Production
-To build the app for production, run:
+## Build para Produção
+Para fazer o build da aplicação para produção, execute:
 
 ```bash
 npm run build
 ```
-The optimized production build will be output to the dist directory. You can then preview the production build with:
+O build de produção otimizado será gerado no diretório dist. Você pode então visualizar o build de produção com:
 
 ```bash
 npm run preview
 ```
-## Linting the Code
-To check for linting issues, run:
+## Linting do Código
+Para verificar problemas de linting, execute:
 
 ```bash
 npm run lint
 ```
-To automatically fix linting issues, run:
+Para corrigir automaticamente problemas de linting, execute:
 
 ```bash
 npm run lint:fix
 ```
-## Project Structure
+## Estrutura do Projeto
 
-Here's an overview of the project structure:
+Aqui está uma visão geral da estrutura do projeto:
 
 ```
-financial-management/
+tech-challenge-04/
 ├── src/
-│   ├── components/         # Reusable UI components
-│   ├── pages/              # Page components
-│   ├── api/                # API service functions
-│   │   ├── auth.ts         # Authentication API calls
-│   │   ├── transactions.ts # Transaction API calls
-│   │   └── users.ts        # User API calls
-│   ├── commons/            # Common utilities and configurations (e.g., i18n)
-│   ├── contexts/           # React Contexts for global state management
-│   ├── hooks/              # Custom React hooks
-│   ├── styles/             # Theme and global styles (e.g., Material-UI theme, tokens)
-│   ├── lib/                # Utility functions
-│   ├── stories/            # Storybook stories for UI components
-│   │   └── decorators/     # Storybook decorators
-│   ├── App.tsx             # Main App component with routing
-│   ├── main.tsx            # Vite entry point
-│   └── globals.css         # Global CSS styles
-├── public/                 # Static assets (e.g., images, fonts, SVG icons, favicon.ico)
-├── dist/                   # Production build output
-├── .eslintrc.json          # ESLint configuration
-├── .gitignore              # Git ignore file
-├── vite.config.ts          # Vite configuration
-├── index.html              # HTML entry point
-├── package.json            # Project dependencies and scripts
-├── package-lock.json       # npm dependency lock file
-├── postcss.config.mjs      # PostCSS configuration
-├── README.md               # Project documentation
-├── tsconfig.json           # TypeScript configuration
+│   ├── components/         # Componentes UI reutilizáveis
+│   │   ├── features/       # Componentes específicos de funcionalidades (saldo, navegação, transações)
+│   │   ├── landing/        # Componentes da landing page
+│   │   └── ui/             # Componentes UI compartilhados (Button, Card, Input, Typography, etc.)
+│   ├── pages/              # Componentes de página
+│   │   ├── dashboard/      # Página de dashboard
+│   │   ├── investments/    # Página de investimentos
+│   │   ├── landingpage/    # Landing page
+│   │   ├── services/       # Página de serviços
+│   │   └── transactions/   # Página de transações
+│   ├── lib/                # Cliente API e funções de serviço
+│   │   ├── apiClient.ts    # Configuração do cliente HTTP
+│   │   ├── authApi.ts      # Chamadas da API de autenticação
+│   │   ├── transactionApi.ts # Chamadas da API de transações
+│   │   ├── userApi.ts      # Chamadas da API de usuário
+│   │   └── types.ts        # Definições de tipos TypeScript
+│   ├── commons/            # Utilitários comuns e configurações (ex: i18n)
+│   │   ├── i18n.ts         # Configuração i18n
+│   │   ├── useInitI18n.ts  # Hook de inicialização i18n
+│   │   └── locales/        # Arquivos de tradução (en, pt)
+│   ├── contexts/           # React Contexts para gerenciamento de estado global
+│   │   └── UserContext.tsx # Context de autenticação de usuário
+│   ├── hooks/              # Hooks customizados do React
+│   │   ├── useAuth.ts      # Hook de autenticação
+│   │   ├── useTransactions.ts # Hook de dados de transações
+│   │   ├── useTransactionFilter.ts # Filtro de transações
+│   │   ├── useTransactionPagination.ts # Paginação de transações
+│   │   └── useStatementFilters.ts # Filtros de extrato
+│   ├── layouts/            # Componentes de layout
+│   │   └── ProtectedLayout.tsx # Layout de rota protegida
+│   ├── styles/             # Tema e estilos globais
+│   │   ├── theme.ts        # Configuração do tema Material-UI
+│   │   ├── tokens.ts       # Tokens de design
+│   │   └── commonStyles.ts # Utilitários de estilo comuns
+│   ├── stories/            # Stories do Storybook para componentes UI
+│   │   └── decorators/     # Decorators do Storybook
+│   ├── assets/             # Assets estáticos (imagens, ícones)
+│   ├── App.tsx             # Componente principal com roteamento
+│   ├── main.tsx            # Ponto de entrada do Vite
+│   ├── App.css             # Estilos específicos do App
+│   └── index.css           # Estilos CSS globais
+├── submodules/
+│   └── backend/            # Submódulo da API backend
+│       ├── src/            # Código fonte do backend
+│       ├── api/            # Rotas da API
+│       ├── Dockerfile      # Configuração Docker do backend
+│       └── package.json    # Dependências do backend
+├── public/                 # Assets estáticos
+├── .storybook/             # Configuração do Storybook
+├── docker-compose.yml      # Configuração do Docker Compose
+├── Dockerfile              # Configuração Docker do frontend
+├── eslint.config.js        # Configuração do ESLint
+├── vite.config.ts          # Configuração do Vite
+├── index.html              # Ponto de entrada HTML
+├── package.json            # Dependências e scripts do projeto
+├── tsconfig.json           # Configuração do TypeScript
+├── tsconfig.app.json       # Configuração TypeScript do App
+├── tsconfig.node.json      # Configuração TypeScript do Node
+└── README.md               # Documentação do projeto
 ```
 
-## Storybook Commands
+## Melhorias Recentes
 
-Storybook is used for developing and showcasing UI components in isolation.
+Principais otimizações implementadas:
 
-To run Storybook in development mode:
+- **Arquitetura de Componentes**: Componentes UI reutilizáveis unificados com organização baseada em funcionalidades
+- **Performance**: Lazy loading para rotas, memoização de componentes, re-renders otimizados
+- **Qualidade de Código**: Nomenclatura padronizada, estrutura melhorada, imports consistentes
+- **Experiência do Desenvolvedor**: Hooks customizados, tipos TypeScript centralizados, integração com Storybook
+
+## Comandos do Storybook
+
+O Storybook é usado para desenvolver e exibir componentes UI de forma isolada.
+
+Para executar o Storybook em modo de desenvolvimento:
 
 ```bash
 npm run storybook
 ```
 
-This will open Storybook in your browser at `http://localhost:6006`.
+Isso abrirá o Storybook no seu navegador em `http://localhost:6006`.
 
-To build a static Storybook production bundle:
+Para fazer o build estático de produção do Storybook:
 
 ```bash
 npm run build-storybook
 ```
 
-The static build will be output to the `storybook-static` directory.
-
-## Authors
-
-- <img src="https://avatars.githubusercontent.com/u/132622525?v=4" width="24" height="24" alt="Fernando Gustavo Cortez" style="border-radius: 50%; vertical-align: middle;"> **Fernando Gustavo Cortez** - [https://github.com/FernandoGustavoCortez](https://github.com/FernandoGustavoCortez)
-
-- <img src="https://avatars.githubusercontent.com/u/37480857?v=4" width="24" height="24" alt="Lucas Wenceslau" style="border-radius: 50%; vertical-align: middle;"> **Lucas Wenceslau** - [https://github.com/lucaswenceslau](https://github.com/lucaswenceslau)
-
-- <img src="https://avatars.githubusercontent.com/u/71905861?v=4" width="24" height="24" alt="Osmar" style="border-radius: 50%; vertical-align: middle;"> **Osmar** - [https://github.com/MazFilho](https://github.com/MazFilho)
-
-- <img src="https://avatars.githubusercontent.com/u/13469487?v=4" width="24" height="24" alt="Vittoria Zago" style="border-radius: 50%; vertical-align: middle;"> **Vittoria Zago** - [https://github.com/vittoriazago](https://github.com/vittoriazago)
+O build estático será gerado no diretório `storybook-static`.
 
 ## Docker e Docker Compose
 
@@ -185,3 +216,12 @@ Este projeto inclui um `Dockerfile` para criar a imagem do frontend e um arquivo
 
 Assim, você pode rodar toda a aplicação localmente sem instalar dependências do Node.js ou MongoDB na sua máquina.
 
+## Autores
+
+- <img src="https://avatars.githubusercontent.com/u/132622525?v=4" width="24" height="24" alt="Fernando Gustavo Cortez" style="border-radius: 50%; vertical-align: middle;"> **Fernando Gustavo Cortez** - [https://github.com/FernandoGustavoCortez](https://github.com/FernandoGustavoCortez)
+
+- <img src="https://avatars.githubusercontent.com/u/37480857?v=4" width="24" height="24" alt="Lucas Wenceslau" style="border-radius: 50%; vertical-align: middle;"> **Lucas Wenceslau** - [https://github.com/lucaswenceslau](https://github.com/lucaswenceslau)
+
+- <img src="https://avatars.githubusercontent.com/u/71905861?v=4" width="24" height="24" alt="Osmar" style="border-radius: 50%; vertical-align: middle;"> **Osmar** - [https://github.com/MazFilho](https://github.com/MazFilho)
+
+- <img src="https://avatars.githubusercontent.com/u/13469487?v=4" width="24" height="24" alt="Vittoria Zago" style="border-radius: 50%; vertical-align: middle;"> **Vittoria Zago** - [https://github.com/vittoriazago](https://github.com/vittoriazago)
