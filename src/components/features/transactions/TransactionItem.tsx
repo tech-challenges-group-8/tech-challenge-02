@@ -40,6 +40,11 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
   const handleOpenDeleteModal = () => setOpenDeleteModal(true);
   const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
+  const formattedBalance = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(tx.value);
+
   const handleDeleteConfirm = async () => {
     setLoading(true);
     await deleteTransaction(tx);
@@ -75,8 +80,8 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
     setEditError("");
   };
   return (
-    <Box mb={theme.spacing(2)} width="100%">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+    <Box mb={theme.spacing(2)} width={"100%"}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" width={"100%"}>
         <Box>
           <Typography variant="body2" color={theme.palette.primary.main}>
             {tx.type === "TRANSFER"
@@ -85,7 +90,7 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
           </Typography>
 
           {editing ? (
-            <Box display="flex" alignItems="center" gap={theme.spacing(1)}>
+            <Box display="flex" flexDirection={"column"} justifyContent={'space-between'} alignItems="center" gap={theme.spacing(1)}>
               <NumericInputField
                 value={editedValue}
                 onChange={handleValueChange}
@@ -95,7 +100,11 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
                   width: { xs: "100%", sm: "150px" },
                   "& .MuiInputBase-input": {
                     textAlign: "center",
+                    padding: 0
                   },
+                  "& label": {
+                    display:'none',
+                  }
                 }}
                 error={!!editError}
                 helperText={editError}
@@ -107,7 +116,7 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
                 loadingText={t("statement.saving")}
                 sx={{
                   height: "40px",
-                  width: "auto",
+                  width: "100%",
                   minWidth: "unset",
                   padding: "6px 16px",
                 }}
@@ -125,22 +134,22 @@ export default function TransactionItem({ tx }: TransactionItemProps) {
               }
             >
               {tx.type === "TRANSFER"
-                ? `-R$ ${Number(tx.value).toFixed(2)}`
-                : `R$ ${Number(tx.value).toFixed(2)}`}
+                ? `- ${formattedBalance}`
+                : ` ${formattedBalance}`}
             </Typography>
           )}
 
-          <Typography variant="caption" color={theme.palette.text.secondary}>
+          <Typography variant="caption" color={theme.palette.primary.main}>
             {new Date(tx.date).toLocaleDateString("pt-BR")}
           </Typography>
 
           <br />
-          <Typography variant="caption" color={theme.palette.text.secondary}>
+          <Typography variant="caption" color={theme.palette.primary.main}>
             {tx.description || ""}
           </Typography>
         </Box>
 
-        <Box>
+        <Box display={'flex'} flexDirection={"column"} marginLeft={"10px"}>
           <IconButton onClick={handleStartEditing} disabled={loading}>
             <EditIcon
               sx={{
