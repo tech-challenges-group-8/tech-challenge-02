@@ -1,11 +1,12 @@
- 
 const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export const apiClient = {
   get: async (endpoint: string, options: RequestInit = {}) => {
     return fetch(`${BASE_URL}${endpoint}`, {
+      cache: "no-store",
       ...options,
       headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
         ...(options.headers as Record<string, string>),
         ...getAuthHeaders(),
       },
@@ -14,9 +15,9 @@ export const apiClient = {
 
   post: async (endpoint: string, data?: any, options: RequestInit = {}) => {
     return fetch(`${BASE_URL}${endpoint}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...(options.headers as Record<string, string>),
         ...getAuthHeaders(),
       },
@@ -27,9 +28,9 @@ export const apiClient = {
 
   patch: async (endpoint: string, data?: any, options: RequestInit = {}) => {
     return fetch(`${BASE_URL}${endpoint}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...(options.headers as Record<string, string>),
         ...getAuthHeaders(),
       },
@@ -40,7 +41,7 @@ export const apiClient = {
 
   delete: async (endpoint: string, options: RequestInit = {}) => {
     return fetch(`${BASE_URL}${endpoint}`, {
-      method: 'DELETE',
+      method: "DELETE",
       ...options,
       headers: {
         ...(options.headers as Record<string, string>),
@@ -50,11 +51,15 @@ export const apiClient = {
   },
 
   // For unauthenticated requests
-  postPublic: async (endpoint: string, data?: any, options: RequestInit = {}) => {
+  postPublic: async (
+    endpoint: string,
+    data?: any,
+    options: RequestInit = {}
+  ) => {
     return fetch(`${BASE_URL}${endpoint}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...(options.headers as Record<string, string>),
       },
       body: data ? JSON.stringify(data) : undefined,
@@ -64,6 +69,6 @@ export const apiClient = {
 };
 
 const getAuthHeaders = (): Record<string, string> => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
